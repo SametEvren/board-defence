@@ -1,6 +1,6 @@
-using System;
 using DG.Tweening;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace MainMenu
@@ -46,6 +46,11 @@ namespace MainMenu
                 {
                     playButton.interactable = true;
                 });
+        }
+
+        public void StartTheGame()
+        {
+            SceneManager.LoadScene("Game");
         }
     }
 }
