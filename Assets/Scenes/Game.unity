@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 5797590}
   - component: {fileID: 5797589}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: Defender Selection Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,7 +162,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 237.53418}
+  m_SizeDelta: {x: 0, y: 229}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &5797589
 MonoBehaviour:
@@ -313,13 +313,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 142793530}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.28175536, y: 0, z: 0, w: 0.95948625}
-  m_LocalPosition: {x: 0, y: 3.9, z: -3.82}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 32.73, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &874455307
 GameObject:
   m_ObjectHideFlags: 0
