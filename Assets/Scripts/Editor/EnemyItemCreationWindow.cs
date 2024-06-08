@@ -6,20 +6,20 @@ using UnityEngine;
 
 namespace Editor
 {
-    public class DefenceItemCreationWindow : EditorWindow
+    public class EnemyItemCreationWindow : EditorWindow
     {
-        private Action<DefenceItemInventory> _onConfirm;
-        private List<DefenceItemType> _types;
+        private Action<EnemyInventory> _onConfirm;
+        private List<EnemyType> _types;
 
-        private DefenceItemType _selectedType;
+        private EnemyType _selectedType;
         private int _selectedAmount;
         private int _selectedTypeIndex;
         
-        public static void ShowWindow(List<DefenceItemInventory> alreadyExistingItems, Action<DefenceItemInventory> onConfirm)
+        public static void ShowWindow(List<EnemyInventory> alreadyExistingItems, Action<EnemyInventory> onConfirm)
         {
-            var window = GetWindow<DefenceItemCreationWindow>();
-            window.titleContent = new GUIContent("New Defence Item");
-            window._types = LevelEditor.ExtractAvailableDefenceTypes(alreadyExistingItems);
+            var window = GetWindow<EnemyItemCreationWindow>();
+            window.titleContent = new GUIContent("New Enemy");
+            window._types = LevelEditor.ExtractAvailableEnemyTypes(alreadyExistingItems);
             window._onConfirm = onConfirm;
             window.Show();
         }
@@ -35,15 +35,15 @@ namespace Editor
                 typeNames[i] = _types[i].ToString();
             }
 
-            _selectedTypeIndex = EditorGUILayout.Popup("Defence Item Type", _selectedTypeIndex, typeNames);
+            _selectedTypeIndex = EditorGUILayout.Popup("Enemy Type", _selectedTypeIndex, typeNames);
             _selectedType = _types[_selectedTypeIndex];
 
             if (GUILayout.Button("Confirm"))
             {
-                _onConfirm.Invoke(new DefenceItemInventory()
+                _onConfirm.Invoke(new EnemyInventory()
                 {
                     amount = _selectedAmount,
-                    defenceItemType = _selectedType
+                    enemyType = _selectedType
                 });
                 Close();
             }

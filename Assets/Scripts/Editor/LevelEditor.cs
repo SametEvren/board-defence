@@ -12,9 +12,8 @@ namespace Editor
     {
         private LevelData LevelData => (LevelData)target;
         private Vector2 _defenceInventoryScrollPosition;
+        private Vector2 _enemyInventoryScrollPosition;
 
-        private int _selectedDefenceTypeIndex;
-        
         public override void OnInspectorGUI()
         {
             RenderGridOptions();
@@ -70,10 +69,12 @@ namespace Editor
                 Math.Min(LevelData.gridSize.y, LevelData.buildableArea.y));
         }
         #endregion
+
+        #region Defence Inventory System
         
         private void RenderDefenceInventory()
         {
-            RenderDefenceHeader();
+            RenderHeader("Defence Inventory");
             _defenceInventoryScrollPosition = EditorGUILayout.BeginScrollView(_defenceInventoryScrollPosition);
             RenderDefenceItems();
             RenderAddDefenceButton();
@@ -81,18 +82,6 @@ namespace Editor
             EditorGUILayout.EndScrollView();
         }
 
-        private void RenderAddDefenceButton()
-        {
-            if (LevelData.defenceItemInventories.Count >= Enum.GetValues(typeof(DefenceItemType)).Length - 1)
-                return;
-            
-            GUI.backgroundColor = Color.green;
-            if (GUILayout.Button(EditorGUIUtility.IconContent("plus"), GUILayout.Height(40f)))
-            {
-                DefenceItemCreationWindow.ShowWindow(LevelData.defenceItemInventories, AddDefenceItem);
-            }
-            GUI.backgroundColor = Color.white;
-        }
 
         private void AddDefenceItem(DefenceItemInventory item)
         {
@@ -122,58 +111,186 @@ namespace Editor
                 EditorGUILayout.EndHorizontal();
             }
         }
-
-        private List<DefenceItemType> ExtractAvailableTypes(List<DefenceItemInventory> alreadyExistingItems)
-        {
-            return Enum.GetValues(typeof(DefenceItemType))
-                .Cast<DefenceItemType>()
-                .Where(value => value != DefenceItemType.None && alreadyExistingItems
-                    .All(d => d.defenceItemType != value))
-                .ToList();
-        }
         
         private DefenceItemType RenderDefenceItemType(DefenceItemType itemDefenceType)
         {
-            var availableTypes = ExtractAvailableTypes(LevelData.defenceItemInventories);
+            var availableTypes = ExtractAvailableDefenceTypes(LevelData.defenceItemInventories);
+            
             availableTypes.Insert(0, itemDefenceType);
             var typeNames = new string[availableTypes.Count];
             for (int i = 0; i < availableTypes.Count; i++)
             {
                 typeNames[i] = availableTypes[i].ToString();
             }
-
-            _selectedDefenceTypeIndex = 0;
-
-            GUI.color = itemDefenceType == DefenceItemType.None ? Color.red : Color.white;
-            _selectedDefenceTypeIndex = EditorGUILayout.Popup(_selectedDefenceTypeIndex, typeNames);
-            GUI.color = Color.white;
-            return availableTypes[_selectedDefenceTypeIndex];
+            
+            return availableTypes[EditorGUILayout.Popup(0, typeNames)];
         }
 
+        #endregion
+
+        #region Enemy Inventory
+        
+        private void RenderEnemyInventory()
+        {
+            RenderHeader("Enemy Inventory");
+            _enemyInventoryScrollPosition = EditorGUILayout.BeginScrollView(_enemyInventoryScrollPosition);
+            RenderEnemyItems();
+            RenderAddEnemyButton();
+            
+            EditorGUILayout.EndScrollView();
+        }
+        
+        private void AddEnemy(EnemyInventory item)
+        {
+            LevelData.enemyInventories.Add(item);
+        }
+        
+        private void RenderEnemyItems()
+        {
+            var itemList = LevelData.enemyInventories;
+            
+            for (var i = 0; i < itemList.Count; i++)
+            {
+                var item = itemList[i];
+
+                EditorGUILayout.BeginHorizontal();
+
+                var newIndex = RenderChangeIndexButtons(i);
+                if (newIndex != i)
+                {
+                    var temp = LevelData.enemyInventories[newIndex];
+                    LevelData.enemyInventories[newIndex] = item;
+                    LevelData.enemyInventories[i] = temp;
+                    EditorGUILayout.EndHorizontal();
+                    return;
+                }
+
+                EditorGUILayout.BeginVertical();
+                EditorGUILayout.Space(5f);
+                EditorGUILayout.BeginHorizontal();
+                
+                item.amount = RenderItemAmount(item.amount);
+                item.enemyType = RenderEnemyItemType(item.enemyType);
+                
+                if (RenderDeleteButton())
+                {
+                    LevelData.enemyInventories.RemoveAt(i);
+                    EditorGUILayout.EndHorizontal();
+                    EditorGUILayout.EndVertical();
+                    EditorGUILayout.EndHorizontal();
+                    return;
+                }
+
+                LevelData.enemyInventories[i] = item;
+                EditorGUILayout.EndHorizontal();
+                EditorGUILayout.EndVertical();
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
+        private int RenderChangeIndexButtons(int index)
+        {
+            EditorGUILayout.BeginVertical(GUILayout.Width(20f));
+            var renderUpButton = index != 0;
+            var renderDownButton = index != LevelData.enemyInventories.Count - 1;
+            if (renderUpButton)
+                if (GUILayout.Button("▲", GUILayout.Height(renderDownButton ? 15f : 30f), GUILayout.Width(20f)))
+                {
+                    EditorGUILayout.EndVertical();
+                    return index - 1;
+                }
+            
+            if (renderDownButton)
+                if (GUILayout.Button("▼", GUILayout.Height(renderUpButton ? 15f: 30f), GUILayout.Width(20f)))
+                {
+                    EditorGUILayout.EndVertical();
+                    return index + 1;
+                }
+            
+            EditorGUILayout.EndVertical();
+            return index;
+        }
+
+        private EnemyType RenderEnemyItemType(EnemyType enemyType)
+        {
+            var availableTypes = ExtractAvailableEnemyTypes(LevelData.enemyInventories);
+            
+            availableTypes.Insert(0, enemyType);
+            var typeNames = new string[availableTypes.Count];
+            for (int i = 0; i < availableTypes.Count; i++)
+            {
+                typeNames[i] = availableTypes[i].ToString();
+            }
+            
+            return availableTypes[EditorGUILayout.Popup(0, typeNames)];
+        }
+        #endregion
+
+        
+        private void RenderHeader(string headerName)
+        {
+            EditorGUILayout.LabelField(headerName, EditorStyles.boldLabel);
+        }
+        
         private bool RenderDeleteButton()
         {
             GUI.backgroundColor = new Color(0.8f, 0f, 0f);
-            var result = GUILayout.Button(EditorGUIUtility.IconContent("garbage"), GUILayout.Height(20), GUILayout.Width(40));
+            var result = GUILayout.Button(EditorGUIUtility.IconContent("garbage"), 
+                GUILayout.Height(20), GUILayout.Width(40));
             GUI.backgroundColor = Color.white;
             return result;
         }
-
+        
         private int RenderItemAmount(int amount)
         {
             amount = EditorGUILayout.IntField(amount, GUILayout.Width(40));
             amount = Mathf.Max(1, amount);
             return amount;
         }
-
-        private void RenderDefenceHeader()
+        
+        public static List<DefenceItemType> ExtractAvailableDefenceTypes(List<DefenceItemInventory> alreadyExistingItems)
         {
-            EditorGUILayout.LabelField("Defence Inventory",EditorStyles.boldLabel);
+            return ExtractAvailableTypes(alreadyExistingItems, d => d.defenceItemType, DefenceItemType.None);
         }
 
-        private void RenderEnemyInventory()
+        public static List<EnemyType> ExtractAvailableEnemyTypes(List<EnemyInventory> alreadyExistingItems)
         {
-            //throw new NotImplementedException();
+            return Enum.GetValues(typeof(EnemyType))
+                .Cast<EnemyType>()
+                .Where(value => !value.Equals(EnemyType.None))
+                .ToList();
+        }
+        
+        private static List<T> ExtractAvailableTypes<T, U>(List<U> alreadyExistingItems, Func<U, T> getType, T noneType) where T : Enum
+        {
+            return Enum.GetValues(typeof(T))
+                .Cast<T>()
+                .Where(value => !value.Equals(noneType) && alreadyExistingItems
+                    .All(d => !getType(d).Equals(value)))
+                .ToList();
+        }
+        
+        private void RenderAddButton<T>(List<T> inventory, Action showWindowAction, int enumLength)
+        {
+            if (enumLength >= 0 && inventory.Count >= enumLength - 1)
+                return;
+
+            GUI.backgroundColor = Color.green;
+            if (GUILayout.Button(EditorGUIUtility.IconContent("plus"), GUILayout.Height(40f)))
+            {
+                showWindowAction();
+            }
+            GUI.backgroundColor = Color.white;
         }
 
+        private void RenderAddDefenceButton()
+        {
+            RenderAddButton(LevelData.defenceItemInventories, () => DefenceItemCreationWindow.ShowWindow(LevelData.defenceItemInventories, AddDefenceItem), Enum.GetValues(typeof(DefenceItemType)).Length);
+        }
+
+        private void RenderAddEnemyButton()
+        {
+            RenderAddButton(LevelData.enemyInventories, () => EnemyItemCreationWindow.ShowWindow(LevelData.enemyInventories, AddEnemy), -1);
+        }
     }
 }
