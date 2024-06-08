@@ -11,7 +11,7 @@ namespace Editor
         private LevelData LevelData => (LevelData)target;
         public override void OnInspectorGUI()
         {
-            // base.OnInspectorGUI();
+            base.OnInspectorGUI();
 
             RenderGridOptions();
 
@@ -19,20 +19,20 @@ namespace Editor
 
             RenderEnemyInventory();
             
-            if (GUI.changed)
-            {
-                EditorUtility.SetDirty(LevelData);
-            }
+            // if (GUI.changed)
+            // {
+            //     EditorUtility.SetDirty(LevelData);
+            // }
         }
 
         private void RenderDefenceInventory()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void RenderEnemyInventory()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         private void RenderGridOptions()
