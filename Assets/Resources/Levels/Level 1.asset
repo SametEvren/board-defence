@@ -16,15 +16,15 @@ MonoBehaviour:
   buildableArea: {x: 4, y: 4}
   defenceItemInventories:
   - defenceItemType: 1
-    amount: 2
-  - defenceItemType: 3
-    amount: 3
-  - defenceItemType: 2
     amount: 1
+  - defenceItemType: 3
+    amount: 1
+  - defenceItemType: 2
+    amount: 9
   enemyInventories:
   - enemyType: 1
-    amount: 3
-  - enemyType: 2
-    amount: 4
+    amount: 5
   - enemyType: 3
+    amount: 4
+  - enemyType: 2
     amount: 3

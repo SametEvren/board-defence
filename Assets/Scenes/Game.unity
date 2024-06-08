@@ -350,7 +350,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 660859500}
-  - {fileID: 2024440247}
   - {fileID: 992747755}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -595,11 +594,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryItems:
   - itemType: 1
-    textMeshPro: {fileID: 1092692075}
+    amountText: {fileID: 1092692075}
   - itemType: 2
-    textMeshPro: {fileID: 1935882532}
+    amountText: {fileID: 1935882532}
   - itemType: 3
-    textMeshPro: {fileID: 9058579567444905188}
+    amountText: {fileID: 9058579567444905188}
 --- !u!114 &1092692075 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 790106056709927873, guid: ffdd2d66723bb34439beca1437857beb, type: 3}
@@ -1062,53 +1061,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 731449764043581320, guid: c757479b067e56e42a8e260e360fff71, type: 3}
   m_PrefabInstance: {fileID: 1882612012}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2024440246
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2024440247}
-  - component: {fileID: 2024440248}
-  m_Layer: 0
-  m_Name: UIController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2024440247
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2024440246}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 569758311}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2024440248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2024440246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1307deb6c1de77d4f85f4c037d0428dc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bastetCountText: {fileID: 1092692075}
-  anubisCountText: {fileID: 1935882532}
-  pharaohCountText: {fileID: 9058579567444905188}
 --- !u!4 &2140562517 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5215117008547247015, guid: 8054b4a1ea09de940864a52130d5d7c3, type: 3}
