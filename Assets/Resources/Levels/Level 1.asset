@@ -18,9 +18,9 @@ MonoBehaviour:
   - defenceItemType: 1
     amount: 3
   - defenceItemType: 2
-    amount: 2
+    amount: 3
   - defenceItemType: 3
-    amount: 1
+    amount: 3
   enemyInventories:
   - enemyType: 1
     amount: 3
