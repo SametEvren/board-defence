@@ -81,8 +81,12 @@ namespace Editor
             
             EditorGUILayout.EndScrollView();
         }
-
-
+        
+        private void RenderAddDefenceButton()
+        {
+            RenderAddButton(LevelData.defenceItemInventories, () => DefenceItemCreationWindow.ShowWindow(LevelData.defenceItemInventories, AddDefenceItem), Enum.GetValues(typeof(DefenceItemType)).Length);
+        }
+        
         private void AddDefenceItem(DefenceItemInventory item)
         {
             LevelData.defenceItemInventories.Add(item);
@@ -126,6 +130,11 @@ namespace Editor
             return availableTypes[EditorGUILayout.Popup(0, typeNames)];
         }
 
+        public static List<DefenceItemType> ExtractAvailableDefenceTypes(List<DefenceItemInventory> alreadyExistingItems)
+        {
+            return ExtractAvailableTypes(alreadyExistingItems, d => d.defenceItemType, DefenceItemType.None);
+        }
+        
         #endregion
 
         #region Enemy Inventory
@@ -136,8 +145,12 @@ namespace Editor
             _enemyInventoryScrollPosition = EditorGUILayout.BeginScrollView(_enemyInventoryScrollPosition);
             RenderEnemyItems();
             RenderAddEnemyButton();
-            
             EditorGUILayout.EndScrollView();
+        }
+        
+        private void RenderAddEnemyButton()
+        {
+            RenderAddButton(LevelData.enemyInventories, () => EnemyItemCreationWindow.ShowWindow(LevelData.enemyInventories, AddEnemy), -1);
         }
         
         private void AddEnemy(EnemyInventory item)
@@ -224,9 +237,18 @@ namespace Editor
             
             return availableTypes[EditorGUILayout.Popup(0, typeNames)];
         }
+        
+        public static List<EnemyType> ExtractAvailableEnemyTypes(List<EnemyInventory> alreadyExistingItems)
+        {
+            return Enum.GetValues(typeof(EnemyType))
+                .Cast<EnemyType>()
+                .Where(value => !value.Equals(EnemyType.None))
+                .ToList();
+        }
         #endregion
 
-        
+        #region Global Operations
+         
         private void RenderHeader(string headerName)
         {
             EditorGUILayout.LabelField(headerName, EditorStyles.boldLabel);
@@ -246,19 +268,6 @@ namespace Editor
             amount = EditorGUILayout.IntField(amount, GUILayout.Width(40));
             amount = Mathf.Max(1, amount);
             return amount;
-        }
-        
-        public static List<DefenceItemType> ExtractAvailableDefenceTypes(List<DefenceItemInventory> alreadyExistingItems)
-        {
-            return ExtractAvailableTypes(alreadyExistingItems, d => d.defenceItemType, DefenceItemType.None);
-        }
-
-        public static List<EnemyType> ExtractAvailableEnemyTypes(List<EnemyInventory> alreadyExistingItems)
-        {
-            return Enum.GetValues(typeof(EnemyType))
-                .Cast<EnemyType>()
-                .Where(value => !value.Equals(EnemyType.None))
-                .ToList();
         }
         
         private static List<T> ExtractAvailableTypes<T, U>(List<U> alreadyExistingItems, Func<U, T> getType, T noneType) where T : Enum
@@ -282,15 +291,7 @@ namespace Editor
             }
             GUI.backgroundColor = Color.white;
         }
-
-        private void RenderAddDefenceButton()
-        {
-            RenderAddButton(LevelData.defenceItemInventories, () => DefenceItemCreationWindow.ShowWindow(LevelData.defenceItemInventories, AddDefenceItem), Enum.GetValues(typeof(DefenceItemType)).Length);
-        }
-
-        private void RenderAddEnemyButton()
-        {
-            RenderAddButton(LevelData.enemyInventories, () => EnemyItemCreationWindow.ShowWindow(LevelData.enemyInventories, AddEnemy), -1);
-        }
+        #endregion
+       
     }
 }

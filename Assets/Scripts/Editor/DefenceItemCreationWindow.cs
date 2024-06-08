@@ -21,6 +21,8 @@ namespace Editor
             window.titleContent = new GUIContent("New Defence Item");
             window._types = LevelEditor.ExtractAvailableDefenceTypes(alreadyExistingItems);
             window._onConfirm = onConfirm;
+            window.minSize = new Vector2(300,75);
+            window.maxSize = new Vector2(300,75);
             window.Show();
         }
 
