@@ -71,6 +71,7 @@ namespace Board
         Cat = 3
     }
 
+    [Serializable]
     public enum DefenceItemType
     {
         None = 0,

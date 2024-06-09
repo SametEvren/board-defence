@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.Assertions;
+using UnityEngine.Serialization;
 using Utility;
 
 namespace Board
@@ -7,20 +9,19 @@ namespace Board
     public class BoardController : MonoBehaviour
     {
         public LevelData levelData;
-        [SerializeField] private GameObject stonePrefab;
-        [SerializeField] private GameObject buildableStonePrefab;
+        [SerializeField] private BoardSlot slotPrefab;
         [SerializeField] private SerializedDictionary<DefenceItemType, int> defenceInventory;
         
         public event Action<DefenceItemType, int> InventoryUpdated;
-        
+
+        private void OnValidate()
+        {
+            Assert.IsNotNull(levelData);
+            Assert.IsNotNull(slotPrefab);
+        }
+
         private void Start()
         {
-            if (levelData == null || stonePrefab == null || buildableStonePrefab == null)
-            {
-                Debug.LogError("LevelData or Prefabs are not assigned.");
-                return;
-            }
-            
             SpawnLevel();
             SetInventory();
         }
@@ -37,8 +38,9 @@ namespace Board
                 for (int y = 0; y < levelData.gridSize.y; y++)
                 {
                     var position = new Vector3(x - offsetX, 0, y - offsetY);
-                    GameObject prefab = (x < levelData.buildableArea.x && y < levelData.buildableArea.y) ? buildableStonePrefab : stonePrefab;
-                    Instantiate(prefab, position, Quaternion.identity, parent.transform);
+                    var slot = Instantiate(slotPrefab, position, Quaternion.identity, parent.transform);
+                    if (x < levelData.buildableArea.x && y < levelData.buildableArea.y)
+                        slot.RenderAsPlaceable();
                 }
             }
         }

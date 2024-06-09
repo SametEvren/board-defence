@@ -351,8 +351,58 @@ Transform:
   m_Children:
   - {fileID: 660859500}
   - {fileID: 992747755}
+  - {fileID: 615568080}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &615568079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 615568080}
+  - component: {fileID: 615568081}
+  m_Layer: 0
+  m_Name: Item Placement Controller
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &615568080
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615568079}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 569758311}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &615568081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615568079}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f340e206f5ca445f9b744090e78e44e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 142793532}
+  itemPrefabs:
+  - {fileID: 5545471928805302068, guid: 58812387f2fce8a43a3557491eee637c, type: 3}
+  - {fileID: -8564848620536793677, guid: bcca729e4f84d4a4aa72bef402555d31, type: 3}
+  - {fileID: 3340370696378769986, guid: 6062d32be4127e141bf306dddd34f291, type: 3}
 --- !u!1 &660859498
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,8 +433,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelData: {fileID: 11400000, guid: 21f67686dbc22664da2f2d708acfc1ac, type: 2}
-  stonePrefab: {fileID: 6887228619220198377, guid: 6565f4ac5718cae48b2f93f1a041cd05, type: 3}
-  buildableStonePrefab: {fileID: 8816464853514771411, guid: 6a1852e7d49b3cb4ca2f3fddc26517e0, type: 3}
+  slotPrefab: {fileID: 8964114411521422458, guid: 6565f4ac5718cae48b2f93f1a041cd05, type: 3}
   defenceInventory:
     keys: 
     values: 
@@ -1078,6 +1127,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Anubis Defender Sprite
       objectReference: {fileID: 0}
+    - target: {fileID: 6483520991480963913, guid: 015b564a7ca43824c9e815ba8b482d0d, type: 3}
+      propertyPath: itemType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483520991480963913, guid: 015b564a7ca43824c9e815ba8b482d0d, type: 3}
+      propertyPath: itemPlacementController
+      value: 
+      objectReference: {fileID: 615568081}
     - target: {fileID: 7852297532654497102, guid: 015b564a7ca43824c9e815ba8b482d0d, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1176,6 +1233,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5797588}
     m_Modifications:
+    - target: {fileID: 1059484555845148836, guid: ffdd2d66723bb34439beca1437857beb, type: 3}
+      propertyPath: itemType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059484555845148836, guid: ffdd2d66723bb34439beca1437857beb, type: 3}
+      propertyPath: itemPlacementController
+      value: 
+      objectReference: {fileID: 615568081}
     - target: {fileID: 4302885335364759203, guid: ffdd2d66723bb34439beca1437857beb, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1358,6 +1423,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3475422977110453721, guid: 779ec4d716d21e249bc4b6a4f72f8781, type: 3}
+      propertyPath: itemType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475422977110453721, guid: 779ec4d716d21e249bc4b6a4f72f8781, type: 3}
+      propertyPath: itemPlacementController
+      value: 
+      objectReference: {fileID: 615568081}
     - target: {fileID: 5868644092618186638, guid: 779ec4d716d21e249bc4b6a4f72f8781, type: 3}
       propertyPath: m_Name
       value: Pharaoh Defender Sprite

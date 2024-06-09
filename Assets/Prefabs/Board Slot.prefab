@@ -11,8 +11,10 @@ GameObject:
   - component: {fileID: 7677349053573184681}
   - component: {fileID: 5751000918883582886}
   - component: {fileID: 2907247195662049341}
-  m_Layer: 0
-  m_Name: Ground
+  - component: {fileID: 8964114411521422458}
+  - component: {fileID: 4848994536951860519}
+  m_Layer: 7
+  m_Name: Board Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -83,3 +85,38 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &8964114411521422458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6887228619220198377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e4243bc38a47f9bb9ca3aee0652265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unplaceableSlotMaterial: {fileID: 2100000, guid: ffa860b993491084196d1a55186433c5, type: 2}
+  placeableSlotMaterial: {fileID: 2100000, guid: 02ea95f27f5edc541be66f39b9eed6c0, type: 2}
+--- !u!65 &4848994536951860519
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6887228619220198377}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.8859292, y: 0.046785936, z: 0.8724489}
+  m_Center: {x: -0.000000014901161, y: -0.000000004656613, z: 0.000000029802322}
