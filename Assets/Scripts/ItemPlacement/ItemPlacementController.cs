@@ -36,7 +36,7 @@ namespace ItemPlacement
 
             if (wasActive != _currentItem.isActiveAndEnabled)
             {
-                _potentialAffectedArea.Clear();
+                _potentialAffectedArea?.Clear();
                 PlacementHighlighter.ResetHighLights();
             }
 
@@ -49,7 +49,6 @@ namespace ItemPlacement
                     MoveItemToSlot(targetedSlot);
                     break;
             }
-
 
             if (Input.GetMouseButtonUp(0))
             {
@@ -114,7 +113,7 @@ namespace ItemPlacement
             _currentItem.gameObject.SetActive(true);
             _currentItem.transform.position = targetedSlot.transform.position;
             _currentCoordinates = targetedSlot.BoardCoordinates;
-            _potentialAffectedArea = PlacementHighlighter.HighlightPlacementRange(_boardController.BoardSlots, targetedSlot.BoardCoordinates, _currentItem.Data);
+            _potentialAffectedArea = new List<BoardSlot>(PlacementHighlighter.HighlightPlacementRange(_boardController.BoardSlots, targetedSlot.BoardCoordinates, _currentItem.Data));
         }
 
         private DefenceItem SpawnPlacementItem(DefenceItemType defenceItemType)

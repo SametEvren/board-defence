@@ -15,3 +15,4 @@ MonoBehaviour:
   damage: 3
   range: 4
   interval: 3
+  attackPattern: 0
