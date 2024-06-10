@@ -11,13 +11,18 @@ namespace Board
         private MeshRenderer _meshRenderer;
         private ISlotOccupier _currentOccupant;
         private bool _isPlaceable;
+        private bool IsOccupied => _currentOccupant != null;
         public bool CanAllowPlacement => !IsOccupied && _isPlaceable;
-        public bool IsOccupied => _currentOccupant != null;
-        public void SetPlaceable(bool placable) => _isPlaceable = placable;
+        
         
         private void Awake()
         {
             _meshRenderer = GetComponent<MeshRenderer>();
+        }
+
+        private void SetPlaceable(bool placeable)
+        {
+            _isPlaceable = placeable;
         }
 
         public void OccupySlot(ISlotOccupier newOccupant)
