@@ -1,13 +1,11 @@
-﻿using System;
-using Board;
+﻿using Board;
 using ItemPlacement;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
-using UnityEngine.UI;
 
 namespace UIScripts
 {
+    [RequireComponent(typeof(EventTrigger))]
     public class ItemPlacementButton : MonoBehaviour, IPointerDownHandler
     {
         [SerializeField] private DefenceItemType itemType;
