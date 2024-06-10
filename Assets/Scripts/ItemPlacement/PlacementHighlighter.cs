@@ -18,7 +18,7 @@ namespace ItemPlacement
             CurrentlyAffectedSlots.Clear();
         }
         
-        public static void HighlightPlacementRange(BoardSlot[,] slotMatrix, Vector2Int origin, DefenceItemData itemData)
+        public static List<BoardSlot> HighlightPlacementRange(BoardSlot[,] slotMatrix, Vector2Int origin, DefenceItemData itemData)
         {
             if(CurrentlyAffectedSlots is { Count: > 0 }) ResetHighLights();
             
@@ -29,7 +29,9 @@ namespace ItemPlacement
                var slot = slotMatrix[coordinate.x, coordinate.y];
                CurrentlyAffectedSlots.Add(slot);
                slot.SetHighlight(true);
-           } 
+           }
+
+           return CurrentlyAffectedSlots;
         }
 
         private static List<Vector2Int> GetAffectedCoordinates(BoardSlot[,] slotMatrix, Vector2Int origin, int range, AttackPattern attackPattern)
@@ -46,11 +48,11 @@ namespace ItemPlacement
                 case AttackPattern.Backward:
                     GetBackwardSlots();
                     break;
-                case AttackPattern.Left:
-                    GetLeftSlots();
-                    break;
                 case AttackPattern.Right:
                     GetRightSlots();
+                    break;
+                case AttackPattern.Left:
+                    GetLeftSlots();
                     break;
                 case AttackPattern.Plus:
                     GetPlusShapeSlots();
@@ -69,33 +71,38 @@ namespace ItemPlacement
 
             void GetForwardSlots()
             {
-                for (var i = origin.y; i < yMax; i++)
+                for (var i = origin.y; i < yMax && i <= origin.y + range; i++)
                     coordinateList.Add(new Vector2Int(origin.x, i));
             }
 
             void GetBackwardSlots()
             {
-                for (var i = origin.y; i >= 0; i--)
+                for (var i = origin.y; i >= 0 && i >= origin.y - range; i--)
                     coordinateList.Add(new Vector2Int(origin.x, i));
-            }
-
-            void GetLeftSlots()
-            {
-                for (var i = origin.x; i >= 0; i--)
-                    coordinateList.Add(new Vector2Int(i, origin.y));
             }
 
             void GetRightSlots()
             {
-                for (var i = origin.x; i < xMax; i++)
+                for (var i = origin.x; i < xMax && i <= origin.x + range; i++)
+                    coordinateList.Add(new Vector2Int(i, origin.y));
+            }
+            
+            void GetLeftSlots()
+            {
+                for (var i = origin.x; i >= 0 && i >= origin.x - range; i--)
                     coordinateList.Add(new Vector2Int(i, origin.y));
             }
 
             void GetPlusShapeSlots()
             {
-                for (var i = 0; i < yMax; i++)
+                var topY = (origin.y + range);
+                var bottomY = (origin.y - range);
+                var leftX = (origin.x - range);
+                var rightX = (origin.x + range);
+
+                for (var i = Math.Max(0, bottomY); i < yMax && i <= topY; i++)
                     coordinateList.Add(new Vector2Int(origin.x, i));
-                for (var i = 0; i < xMax; i++)
+                for (var i = Math.Max(0, leftX); i < xMax && i <= rightX; i++)
                 {
                     if (i == origin.x) continue;
                     coordinateList.Add(new Vector2Int(i, origin.y));

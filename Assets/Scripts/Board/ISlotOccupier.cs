@@ -1,9 +1,11 @@
-﻿namespace Board
+﻿using System;
+
+namespace Board
 {
     public interface ISlotOccupier
     {
-        //TODO: ???
         public SlotOccupantType OccupantType {get;}
+        public event Action OnRemovedFromSlot;
     }
 
     public enum SlotOccupantType

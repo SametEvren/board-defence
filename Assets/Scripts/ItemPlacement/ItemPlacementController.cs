@@ -15,6 +15,7 @@ namespace ItemPlacement
         private DefenceItemType _currentType;
         private DefenceItem _currentItem;
         private Vector2Int _currentCoordinates;
+        private List<BoardSlot> _potentialAffectedArea;
         private bool CurrentlyPlacing => _currentItem != null && _currentType != DefenceItemType.None;
 
         private BoardController _boardController;
@@ -32,15 +33,24 @@ namespace ItemPlacement
             
             var wasActive = _currentItem.isActiveAndEnabled;
             _currentItem.gameObject.SetActive(onValidTarget);
-            
-            if (wasActive != _currentItem.isActiveAndEnabled) 
-                PlacementHighlighter.ResetHighLights();
 
-            if (onValidTarget && targetedSlot.BoardCoordinates != _currentCoordinates)
+            if (wasActive != _currentItem.isActiveAndEnabled)
             {
-                MoveItemToSlot(targetedSlot);
+                _potentialAffectedArea.Clear();
+                PlacementHighlighter.ResetHighLights();
             }
-           
+
+            switch (onValidTarget)
+            {
+                case false:
+                    _currentCoordinates = Vector2Int.one * -1;
+                    break;
+                case true when targetedSlot.BoardCoordinates != _currentCoordinates:
+                    MoveItemToSlot(targetedSlot);
+                    break;
+            }
+
+
             if (Input.GetMouseButtonUp(0))
             {
                 if(onValidTarget)
@@ -70,12 +80,14 @@ namespace ItemPlacement
         {
             _currentItem.transform.SetParent(targetedSlot.transform);
 
-            //TODO: Actual Placement
             targetedSlot.OccupySlot(_currentItem);
+            _currentItem.SetAffectedSlots(_potentialAffectedArea);
             
             _currentItem = null;
             _currentType = DefenceItemType.None;
-            
+            _currentCoordinates = Vector2Int.one * -1;
+            _potentialAffectedArea.Clear();
+
             PlacementHighlighter.ResetHighLights();
         }
 
@@ -102,7 +114,7 @@ namespace ItemPlacement
             _currentItem.gameObject.SetActive(true);
             _currentItem.transform.position = targetedSlot.transform.position;
             _currentCoordinates = targetedSlot.BoardCoordinates;
-            PlacementHighlighter.HighlightPlacementRange(_boardController.BoardSlots, targetedSlot.BoardCoordinates, _currentItem.Data);
+            _potentialAffectedArea = PlacementHighlighter.HighlightPlacementRange(_boardController.BoardSlots, targetedSlot.BoardCoordinates, _currentItem.Data);
         }
 
         private DefenceItem SpawnPlacementItem(DefenceItemType defenceItemType)
@@ -125,8 +137,10 @@ namespace ItemPlacement
         {
             Debug.Log("Cancelled Placement");
             _currentType = DefenceItemType.None;
+            _currentCoordinates = Vector2Int.one * -1;
             Destroy(_currentItem.gameObject);
             _currentItem = null;
+            _potentialAffectedArea.Clear();
             PlacementHighlighter.ResetHighLights();
         }
     }

@@ -16,8 +16,8 @@ namespace Defence
     {
         Forward,
         Backward,
-        Left,
         Right,
+        Left,
         Plus,
         Diagonal,
         All

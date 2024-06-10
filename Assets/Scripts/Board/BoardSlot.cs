@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Board
 {
     [RequireComponent(typeof(MeshRenderer))]
     public class BoardSlot : MonoBehaviour
     {
+        public event Action<ISlotOccupier> OnOccupationChanged;
+        
         [SerializeField] private Material unplaceableSlotMaterial;
         [SerializeField] private Material placeableSlotMaterial;
         [SerializeField] private Material highlightMaterial;
@@ -27,6 +30,15 @@ namespace Board
         public void OccupySlot(ISlotOccupier newOccupant)
         {
             _currentOccupant = newOccupant;
+            _currentOccupant.OnRemovedFromSlot += RemoveOccupant;
+            OnOccupationChanged?.Invoke(_currentOccupant);
+        }
+
+        private void RemoveOccupant()
+        {
+            _currentOccupant.OnRemovedFromSlot -= RemoveOccupant;
+            _currentOccupant = null;
+            OnOccupationChanged?.Invoke(_currentOccupant);
         }
 
         public void SetHighlight(bool isHighlighting)
