@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Board
 {
@@ -29,7 +28,7 @@ namespace Board
         public void RenderAsPlaceable()
         {
             SetPlaceable(true);
-            _meshRenderer.material = placeableSlotMaterial;
+            _meshRenderer.material = _isPlaceable ? placeableSlotMaterial : unplaceableSlotMaterial;
         }
     }
 }

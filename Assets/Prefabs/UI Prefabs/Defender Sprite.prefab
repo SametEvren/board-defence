@@ -448,6 +448,7 @@ GameObject:
   - component: {fileID: 1439421544216189328}
   - component: {fileID: 6111170412304757200}
   - component: {fileID: 3642464921333445329}
+  - component: {fileID: 2775092937068494925}
   m_Layer: 5
   m_Name: Defender Sprite
   m_TagString: Untagged
@@ -588,3 +589,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemType: 0
   itemPlacementController: {fileID: 0}
+--- !u!114 &2775092937068494925
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6036530981328060550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls: []

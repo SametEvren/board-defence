@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Board;
 using Defence;
@@ -24,12 +23,17 @@ namespace ItemPlacement
             var onValidTarget = MouseOnValidTarget(out var targetedSlot);
             _currentItem.gameObject.SetActive(onValidTarget);
 
-            if (!onValidTarget) return;
+            if (onValidTarget)
+            {
+                MoveItemToSlot(targetedSlot);
+            }
            
-            MoveItemToSlot(targetedSlot);
             if (Input.GetMouseButtonUp(0))
             {
-                PlaceItemDown(targetedSlot);
+                if(onValidTarget)
+                    PlaceItemDown(targetedSlot);
+                else
+                    CancelPlacement();
             }
         }
 
@@ -102,6 +106,7 @@ namespace ItemPlacement
 
         public void CancelPlacement()
         {
+            Debug.Log("Cancelled Placement");
             _currentType = DefenceItemType.None;
             Destroy(_currentItem.gameObject);
             _currentItem = null;
