@@ -3,6 +3,7 @@ using System.Linq;
 using Board;
 using Defence;
 using UnityEngine;
+using Zenject;
 
 namespace ItemPlacement
 {
@@ -13,17 +14,29 @@ namespace ItemPlacement
         
         private DefenceItemType _currentType;
         private DefenceItem _currentItem;
-
+        private Vector2Int _currentCoordinates;
         private bool CurrentlyPlacing => _currentItem != null && _currentType != DefenceItemType.None;
+
+        private BoardController _boardController;
+        [Inject]
+        public void Construct(BoardController boardController)
+        {
+            _boardController = boardController;
+        }
 
         private void Update()
         {
             if(!CurrentlyPlacing) return;
 
             var onValidTarget = MouseOnValidTarget(out var targetedSlot);
+            
+            var wasActive = _currentItem.isActiveAndEnabled;
             _currentItem.gameObject.SetActive(onValidTarget);
+            
+            if (wasActive != _currentItem.isActiveAndEnabled) 
+                PlacementHighlighter.ResetHighLights();
 
-            if (onValidTarget)
+            if (onValidTarget && targetedSlot.BoardCoordinates != _currentCoordinates)
             {
                 MoveItemToSlot(targetedSlot);
             }
@@ -62,6 +75,8 @@ namespace ItemPlacement
             
             _currentItem = null;
             _currentType = DefenceItemType.None;
+            
+            PlacementHighlighter.ResetHighLights();
         }
 
         private bool MouseOnValidTarget(out BoardSlot boardSlot)
@@ -86,6 +101,8 @@ namespace ItemPlacement
         {
             _currentItem.gameObject.SetActive(true);
             _currentItem.transform.position = targetedSlot.transform.position;
+            _currentCoordinates = targetedSlot.BoardCoordinates;
+            PlacementHighlighter.HighlightPlacementRange(_boardController.BoardSlots, targetedSlot.BoardCoordinates, _currentItem.Data);
         }
 
         private DefenceItem SpawnPlacementItem(DefenceItemType defenceItemType)
@@ -110,6 +127,7 @@ namespace ItemPlacement
             _currentType = DefenceItemType.None;
             Destroy(_currentItem.gameObject);
             _currentItem = null;
+            PlacementHighlighter.ResetHighLights();
         }
     }
 }

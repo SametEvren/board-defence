@@ -99,6 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unplaceableSlotMaterial: {fileID: 2100000, guid: ffa860b993491084196d1a55186433c5, type: 2}
   placeableSlotMaterial: {fileID: 2100000, guid: 02ea95f27f5edc541be66f39b9eed6c0, type: 2}
+  highlightMaterial: {fileID: 2100000, guid: 82f017e8b40d5ba4bb34e852547d5a90, type: 2}
 --- !u!65 &4848994536951860519
 BoxCollider:
   m_ObjectHideFlags: 0

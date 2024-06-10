@@ -8,7 +8,6 @@ namespace Defence
         [SerializeField] protected DefenceItemData defenceItemData;
         [SerializeField] protected DefenceItemType itemType;
 
-
         public SlotOccupantType OccupantType => SlotOccupantType.Defence;
         public DefenceItemData Data => defenceItemData;
 

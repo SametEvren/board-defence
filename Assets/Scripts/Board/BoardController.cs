@@ -11,6 +11,8 @@ namespace Board
         [SerializeField] private BoardSlot slotPrefab;
         [SerializeField] private SerializedDictionary<DefenceItemType, int> defenceInventory;
         
+        public BoardSlot[,] BoardSlots { get; private set; }
+        
         public event Action<DefenceItemType, int> InventoryUpdated;
 
         private void OnValidate()
@@ -32,15 +34,19 @@ namespace Board
             var offsetX = (levelData.gridSize.x - 1) / 2f;
             var offsetY = (levelData.gridSize.y - 1) / 2f;
 
-            for (int x = 0; x < levelData.gridSize.x; x++)
+            BoardSlots = new BoardSlot[levelData.gridSize.x, levelData.gridSize.y];
+
+            for (var x = 0; x < levelData.gridSize.x; x++)
+            for (var y = 0; y < levelData.gridSize.y; y++)
             {
-                for (int y = 0; y < levelData.gridSize.y; y++)
-                {
-                    var position = new Vector3(x - offsetX, 0, y - offsetY);
-                    var slot = Instantiate(slotPrefab, position, Quaternion.identity, parent.transform);
-                    if (x < levelData.buildableArea.x && y < levelData.buildableArea.y)
-                        slot.RenderAsPlaceable();
-                }
+                var position = new Vector3(x - offsetX, 0, y - offsetY);
+                var slot = Instantiate(slotPrefab, position, Quaternion.identity, parent.transform);
+                
+                BoardSlots[x, y] = slot;
+
+                var isPlaceable = x < levelData.buildableArea.x && y < levelData.buildableArea.y;
+                
+                slot.InitializeSlot(new Vector2Int(x,y), isPlaceable);
             }
         }
         

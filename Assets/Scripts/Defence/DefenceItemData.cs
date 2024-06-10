@@ -9,5 +9,17 @@ namespace Defence
         public float damage;
         public int range;
         public float interval;
+        public AttackPattern attackPattern;
+    }
+
+    public enum AttackPattern
+    {
+        Forward,
+        Backward,
+        Left,
+        Right,
+        Plus,
+        Diagonal,
+        All
     }
 }

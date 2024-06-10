@@ -7,12 +7,16 @@ namespace Board
     {
         [SerializeField] private Material unplaceableSlotMaterial;
         [SerializeField] private Material placeableSlotMaterial;
+        [SerializeField] private Material highlightMaterial;
 
         private MeshRenderer _meshRenderer;
         private ISlotOccupier _currentOccupant;
         private bool _isPlaceable;
         private bool IsOccupied => _currentOccupant != null;
         public bool CanAllowPlacement => !IsOccupied && _isPlaceable;
+
+        [SerializeField] private Vector2Int _coordinates;
+        public Vector2Int BoardCoordinates { get => _coordinates; private set => _coordinates = value; }
         
         
         private void Awake()
@@ -20,19 +24,28 @@ namespace Board
             _meshRenderer = GetComponent<MeshRenderer>();
         }
 
-        private void SetPlaceable(bool placeable)
-        {
-            _isPlaceable = placeable;
-        }
-
         public void OccupySlot(ISlotOccupier newOccupant)
         {
             _currentOccupant = newOccupant;
         }
 
-        public void RenderAsPlaceable()
+        public void SetHighlight(bool isHighlighting)
         {
-            SetPlaceable(true);
+            if (isHighlighting)
+                _meshRenderer.material = highlightMaterial;
+            else
+                RenderPlaceableStatus();
+        }
+
+        public void InitializeSlot(Vector2Int coordinates, bool isPlaceable)
+        {
+            BoardCoordinates = coordinates;
+            _isPlaceable = isPlaceable;
+            RenderPlaceableStatus();
+        }
+
+        public void RenderPlaceableStatus()
+        {
             _meshRenderer.material = _isPlaceable ? placeableSlotMaterial : unplaceableSlotMaterial;
         }
     }
