@@ -366,8 +366,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyParent: {fileID: 1480876141}
   mummyPrefab: {fileID: 1895212641966680, guid: 96ee56c28689b3048bda2e42ba78567d, type: 3}
-  catPrefab: {fileID: 0}
-  birdPrefab: {fileID: 0}
+  catPrefab: {fileID: 1940098064602988, guid: 4bb3ae919a4b33d4cb054a3d37a92221, type: 3}
+  birdPrefab: {fileID: 1011237800896726, guid: 2b4bda023baf11846a7062827593eb49, type: 3}
+  enemyList: []
 --- !u!1 &569758310
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,6 +403,8 @@ Transform:
   - {fileID: 615568080}
   - {fileID: 854370608}
   - {fileID: 544267089}
+  - {fileID: 963147954}
+  - {fileID: 1603705381}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &615568079
@@ -697,6 +700,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1666033550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &963147953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 963147954}
+  - component: {fileID: 963147955}
+  m_Layer: 0
+  m_Name: Defence Item Pool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &963147954
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963147953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 569758311}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &963147955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963147953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6ef475d7041493d9574cde54ff92d09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bastetPrefab: {fileID: -8564848620536793677, guid: bcca729e4f84d4a4aa72bef402555d31, type: 3}
+  anubisPrefab: {fileID: 5545471928805302068, guid: 58812387f2fce8a43a3557491eee637c, type: 3}
+  pharaohPrefab: {fileID: 3340370696378769986, guid: 6062d32be4127e141bf306dddd34f291, type: 3}
 --- !u!1 &992747754
 GameObject:
   m_ObjectHideFlags: 0
@@ -1263,6 +1313,37 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!1 &1603705380
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1603705381}
+  m_Layer: 0
+  m_Name: Enemy Factory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1603705381
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603705380}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 569758311}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1666033546
 GameObject:
   m_ObjectHideFlags: 0
