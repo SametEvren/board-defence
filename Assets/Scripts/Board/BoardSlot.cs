@@ -16,6 +16,7 @@ namespace Board
         private ISlotOccupier _currentOccupant;
         private bool _isPlaceable;
         private bool IsOccupied => _currentOccupant != null;
+        public ISlotOccupier CurrentOccupant => _currentOccupant;
         public bool CanAllowPlacement => !IsOccupied && _isPlaceable;
 
         [SerializeField] private Vector2Int _coordinates;

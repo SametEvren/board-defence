@@ -1,7 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
+using Zenject;
 
-namespace Enemy
+namespace Enemies
 {
     public class EnemySpawnController : MonoBehaviour
     {
@@ -19,6 +21,11 @@ namespace Enemy
         [SerializeField] private GameObject birdPrefab;
         private const int BirdCapacity = 10;
         
+        [Inject]
+        private IEnemyFactory _enemyFactory;
+
+        public List<GameObject> enemyList;
+        
         private void Start()
         {
             SetPools();
@@ -34,7 +41,7 @@ namespace Enemy
         private ObjectPool<GameObject> CreatePool(GameObject prefab, int capacity)
         {
             return new ObjectPool<GameObject>(
-                createFunc: () => Instantiate(prefab, enemyParent),
+                createFunc: () => _enemyFactory.Create(prefab, enemyParent),
                 actionOnGet: ActionOnGet,
                 actionOnRelease: OnPutBackInPool,
                 defaultCapacity: capacity
