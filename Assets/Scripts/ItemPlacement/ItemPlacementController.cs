@@ -19,10 +19,12 @@ namespace ItemPlacement
         private bool CurrentlyPlacing => _currentItem != null && _currentType != DefenceItemType.None;
 
         private BoardController _boardController;
+        private DefenceItemPool _defenceItemPool;
         [Inject]
-        public void Construct(BoardController boardController)
+        public void Construct(BoardController boardController, DefenceItemPool defenceItemPool)
         {
             _boardController = boardController;
+            _defenceItemPool = defenceItemPool;
         }
 
         private void Update()
@@ -121,10 +123,11 @@ namespace ItemPlacement
         {
             var prefab = FetchItemFromPrefabs(defenceItemType);
             if (prefab == null) return null;
-            
-            //TODO: Get from pool
-            var item = Instantiate(prefab, Vector3.zero, Quaternion.identity);
-            item.gameObject.SetActive(false);
+        
+            var item = _defenceItemPool.GetDefenceItem(defenceItemType);
+            item.transform.position = Vector3.zero;
+            item.transform.rotation = Quaternion.identity;
+            item.gameObject.SetActive(true);
             return item;
         }
 

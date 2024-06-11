@@ -33,7 +33,12 @@ namespace Enemy
     
         private ObjectPool<GameObject> CreatePool(GameObject prefab, int capacity)
         {
-            return new ObjectPool<GameObject>(() => Instantiate(prefab, enemyParent), ActionOnGet, OnPutBackInPool, defaultCapacity: capacity);
+            return new ObjectPool<GameObject>(
+                createFunc: () => Instantiate(prefab, enemyParent),
+                actionOnGet: ActionOnGet,
+                actionOnRelease: OnPutBackInPool,
+                defaultCapacity: capacity
+            );
         }
 
         private void ActionOnGet(GameObject obj)

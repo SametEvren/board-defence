@@ -34,8 +34,8 @@ namespace UIScripts
             if (inventoryItem != null)
             {
                 inventoryItem.amountText.text = amount.ToString();
-                if (amount == 0)
-                    inventoryItem.button.interactable = false;
+                
+                if (amount == 0) inventoryItem.button.interactable = false;
             }
         }
 

@@ -1,4 +1,5 @@
 using Board;
+using ItemPlacement;
 using Zenject;
 
 namespace Dependency_Injection
@@ -8,6 +9,7 @@ namespace Dependency_Injection
         public override void InstallBindings()
         {
             Container.Bind<BoardController>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.Bind<DefenceItemPool>().FromComponentInHierarchy().AsSingle().NonLazy();
         }
     }
 }
