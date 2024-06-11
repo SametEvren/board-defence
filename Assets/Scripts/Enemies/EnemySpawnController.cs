@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -56,6 +57,15 @@ namespace Enemies
         private void OnPutBackInPool(GameObject obj)
         {
             obj.gameObject.SetActive(false);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                var bird = _birdEnemyPool.Get();
+                bird.GetComponent<BirdEnemy>().InitializeEnemy(new Vector2Int(3,7));
+            }
         }
     }
 }

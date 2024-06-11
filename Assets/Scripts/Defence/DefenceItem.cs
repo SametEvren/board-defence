@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Board;
+using Enemies;
 using UnityEngine;
 
 namespace Defence
@@ -10,9 +11,10 @@ namespace Defence
         [SerializeField] protected DefenceItemData defenceItemData;
         [SerializeField] protected DefenceItemType itemType;
         [SerializeField] protected List<BoardSlot> affectedSlots;
+        [SerializeField] protected List<Enemy> affectedEnemies;
 
         public SlotOccupantType OccupantType => SlotOccupantType.Defence;
-        public event Action OnRemovedFromSlot;
+        public event Action<ISlotOccupier> OnRemovedFromSlot;
         public DefenceItemData Data => defenceItemData;
         public DefenceItemType ItemType => itemType;
 
@@ -34,7 +36,7 @@ namespace Defence
                 slot.OnOccupationChanged -= HandleChangeInArea;
         }
 
-        protected virtual void HandleChangeInArea(ISlotOccupier occupier)
+        protected virtual void HandleChangeInArea(ISlotOccupier occupier, bool added)
         {
             if(occupier == null || occupier.OccupantType == SlotOccupantType.Defence)
                 return;
@@ -42,7 +44,7 @@ namespace Defence
 
         private void OnDestroy()
         {
-            OnRemovedFromSlot?.Invoke();
+            OnRemovedFromSlot?.Invoke(this);
         }
     }
 }

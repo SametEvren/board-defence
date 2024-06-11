@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Board
@@ -6,17 +7,17 @@ namespace Board
     [RequireComponent(typeof(MeshRenderer))]
     public class BoardSlot : MonoBehaviour
     {
-        public event Action<ISlotOccupier> OnOccupationChanged;
+        public event Action<ISlotOccupier, bool> OnOccupationChanged;
         
         [SerializeField] private Material unplaceableSlotMaterial;
         [SerializeField] private Material placeableSlotMaterial;
         [SerializeField] private Material highlightMaterial;
 
         private MeshRenderer _meshRenderer;
-        private ISlotOccupier _currentOccupant;
+        private List<ISlotOccupier> _currentOccupants;
         private bool _isPlaceable;
-        private bool IsOccupied => _currentOccupant != null;
-        public ISlotOccupier CurrentOccupant => _currentOccupant;
+        private bool IsOccupied => _currentOccupants != null && _currentOccupants.Count != 0;
+        public  List<ISlotOccupier> CurrentOccupants => _currentOccupants;
         public bool CanAllowPlacement => !IsOccupied && _isPlaceable;
 
         [SerializeField] private Vector2Int _coordinates;
@@ -30,16 +31,18 @@ namespace Board
 
         public void OccupySlot(ISlotOccupier newOccupant)
         {
-            _currentOccupant = newOccupant;
-            _currentOccupant.OnRemovedFromSlot += RemoveOccupant;
-            OnOccupationChanged?.Invoke(_currentOccupant);
+            _currentOccupants ??= new List<ISlotOccupier>();
+            _currentOccupants.Add(newOccupant);
+            newOccupant.OnRemovedFromSlot += RemoveOccupant;
+            OnOccupationChanged?.Invoke(newOccupant, true);
         }
 
-        private void RemoveOccupant()
+        private void RemoveOccupant(ISlotOccupier oldOccupant)
         {
-            _currentOccupant.OnRemovedFromSlot -= RemoveOccupant;
-            _currentOccupant = null;
-            OnOccupationChanged?.Invoke(_currentOccupant);
+            _currentOccupants ??= new List<ISlotOccupier>();
+            _currentOccupants.Remove(oldOccupant);
+            oldOccupant.OnRemovedFromSlot -= RemoveOccupant;
+            OnOccupationChanged?.Invoke(oldOccupant, false);
         }
 
         public void SetHighlight(bool isHighlighting)
@@ -54,6 +57,7 @@ namespace Board
         {
             BoardCoordinates = coordinates;
             _isPlaceable = isPlaceable;
+            _currentOccupants = null;
             RenderPlaceableStatus();
         }
 

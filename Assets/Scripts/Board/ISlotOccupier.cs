@@ -5,7 +5,7 @@ namespace Board
     public interface ISlotOccupier
     {
         public SlotOccupantType OccupantType {get;}
-        public event Action OnRemovedFromSlot;
+        public event Action<ISlotOccupier> OnRemovedFromSlot;
     }
 
     public enum SlotOccupantType
