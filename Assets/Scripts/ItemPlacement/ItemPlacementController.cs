@@ -82,6 +82,7 @@ namespace ItemPlacement
             targetedSlot.OccupySlot(_currentItem);
             _currentItem.SetAffectedSlots(_potentialAffectedArea);
             
+            _boardController.UpdateInventory(_currentType);
             _currentItem = null;
             _currentType = DefenceItemType.None;
             _currentCoordinates = Vector2Int.one * -1;

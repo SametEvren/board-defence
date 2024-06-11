@@ -2,6 +2,7 @@
 using ItemPlacement;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Zenject;
 
 namespace UIScripts
 {
@@ -11,9 +12,17 @@ namespace UIScripts
         [SerializeField] private DefenceItemType itemType;
         [SerializeField] private ItemPlacementController itemPlacementController;
         
+        private BoardController _boardController;
+        [Inject]
+        public void Construct(BoardController boardController)
+        {
+            _boardController = boardController;
+        }
+        
         private void HandleButtonClicked()
         {
-            itemPlacementController.StartPlacing(itemType);
+            if(_boardController.CheckAvailable(itemType))
+                itemPlacementController.StartPlacing(itemType);
         }
 
         public void OnPointerDown(PointerEventData eventData)

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using Zenject;
 
 namespace UIScripts
@@ -33,6 +34,8 @@ namespace UIScripts
             if (inventoryItem != null)
             {
                 inventoryItem.amountText.text = amount.ToString();
+                if (amount == 0)
+                    inventoryItem.button.interactable = false;
             }
         }
 
@@ -47,11 +50,13 @@ namespace UIScripts
     {
         public DefenceItemType itemType;
         public TextMeshProUGUI amountText;
+        public Button button;
 
-        public InventoryItem(DefenceItemType itemType, TextMeshProUGUI amountText)
+        public InventoryItem(DefenceItemType itemType, TextMeshProUGUI amountText, Button button)
         {
             this.itemType = itemType;
             this.amountText = amountText;
+            this.button = button;
         }
     }
 }

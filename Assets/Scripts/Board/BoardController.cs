@@ -59,5 +59,17 @@ namespace Board
                 InventoryUpdated?.Invoke(defenceItem.defenceItemType, defenceItem.amount);
             }
         }
+
+        public void UpdateInventory(DefenceItemType itemType)
+        {
+            var newValue = defenceInventory[itemType] - 1;
+            defenceInventory[itemType] = newValue;
+            InventoryUpdated?.Invoke(itemType, newValue);
+        }
+
+        public bool CheckAvailable(DefenceItemType itemType)
+        {
+            return defenceInventory[itemType] > 0;
+        }
     }
 }
