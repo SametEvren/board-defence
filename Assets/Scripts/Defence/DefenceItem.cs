@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Board;
 using Enemies;
+using ItemPlacement;
 using UnityEngine;
+using Zenject;
 
 namespace Defence
 {
@@ -17,6 +19,32 @@ namespace Defence
         public event Action<ISlotOccupier> OnRemovedFromSlot;
         public DefenceItemData Data => defenceItemData;
         public DefenceItemType ItemType => itemType;
+
+        private float _currentHealth;
+
+        private DefenceItemPool _defenceItemPool;
+
+        [Inject]
+        private void Construct(DefenceItemPool defenceItemPool)
+        {
+            _defenceItemPool = defenceItemPool;
+        }
+
+        public void TakeDamage(int amount)
+        {
+            _currentHealth -= amount;
+            //TODO: Particles etc.
+            
+            if (_currentHealth <= 0)
+            {
+                OnDefeat();
+            }
+        }
+
+        public virtual void Initialize()
+        {
+            _currentHealth = Data.health;
+        }
 
         public void SetAffectedSlots(List<BoardSlot> newSlots)
         {
@@ -44,6 +72,7 @@ namespace Defence
 
         private void OnDefeat()
         {
+            
             OnRemovedFromSlot?.Invoke(this);
         }
     }

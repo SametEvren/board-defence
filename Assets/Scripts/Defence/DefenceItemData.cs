@@ -7,6 +7,7 @@ namespace Defence
     public class DefenceItemData : ScriptableObject
     {
         public float damage;
+        public float health;
         public int range;
         public float interval;
         public AttackPattern attackPattern;

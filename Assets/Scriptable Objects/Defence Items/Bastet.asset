@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Bastet
   m_EditorClassIdentifier: 
   damage: 5
+  health: 50
   range: 2
   interval: 4
   attackPattern: 0

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Anubis
   m_EditorClassIdentifier: 
   damage: 3
+  health: 30
   range: 4
   interval: 3
   attackPattern: 0

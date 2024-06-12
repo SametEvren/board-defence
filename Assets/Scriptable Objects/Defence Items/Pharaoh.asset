@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Pharaoh
   m_EditorClassIdentifier: 
   damage: 10
+  health: 100
   range: 1
   interval: 5
-  attackPattern: 0
+  attackPattern: 6

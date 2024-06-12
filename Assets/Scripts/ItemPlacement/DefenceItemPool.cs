@@ -2,6 +2,7 @@
 using Defence;
 using UnityEngine;
 using UnityEngine.Pool;
+using Zenject;
 
 namespace ItemPlacement
 {
@@ -18,6 +19,9 @@ namespace ItemPlacement
         private ObjectPool<DefenceItem> _pharaohPool;
         [SerializeField] private DefenceItem pharaohPrefab;
         private const int PharaohCapacity = 10;
+
+        [Inject]
+        private IDefenceItemFactory _defenceItemFactory;
         
         private void Start()
         {
@@ -34,7 +38,7 @@ namespace ItemPlacement
         private ObjectPool<DefenceItem> CreatePool(DefenceItem prefab, int capacity)
         {
             return new ObjectPool<DefenceItem>(
-                createFunc: () => Instantiate(prefab),
+                createFunc: () => _defenceItemFactory.Create(prefab),
                 actionOnGet: ActionOnGet,
                 actionOnRelease: OnPutBackInPool,
                 defaultCapacity: capacity
@@ -63,6 +67,24 @@ namespace ItemPlacement
                     return _pharaohPool.Get();
                 default:
                     return null;
+            }
+        }
+
+        public void ReleaseDefenceItem(DefenceItemType defenceItemType, DefenceItem item)
+        {
+            switch (defenceItemType)
+            {
+                case DefenceItemType.Bastet:
+                    _bastetPool.Release(item);
+                    break;
+                case DefenceItemType.Anubis:
+                    _anubisPool.Release(item);
+                    break;
+                case DefenceItemType.Pharaoh:
+                    _pharaohPool.Release(item);
+                    break;
+                default:
+                    break;
             }
         }
     }
