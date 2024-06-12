@@ -75,7 +75,7 @@ GameObject:
   - component: {fileID: 95687615767680220}
   - component: {fileID: 3816177209784532929}
   m_Layer: 0
-  m_Name: Skeleton3
+  m_Name: Bird Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

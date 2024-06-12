@@ -64,7 +64,7 @@ namespace Enemies
             if (Input.GetKeyDown(KeyCode.S))
             {
                 var bird = _birdEnemyPool.Get();
-                bird.GetComponent<BirdEnemy>().InitializeEnemy(new Vector2Int(3,7));
+                bird.GetComponent<Enemy>().InitializeEnemy(new Vector2Int(3,7));
             }
         }
     }
