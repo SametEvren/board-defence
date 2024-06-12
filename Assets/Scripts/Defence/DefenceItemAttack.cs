@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Board;
 using Enemies;
 using UnityEngine;
 
@@ -7,45 +8,47 @@ namespace Defence
 {
     public abstract class DefenceItemAttack : MonoBehaviour
     {
-        [SerializeField] protected List<Enemy> _enemiesInRange = new List<Enemy>();
+        [SerializeField] protected List<Enemy> enemiesInRange = new ();
+        [SerializeField] protected List<BoardSlot> affectedBoardSlots;
         protected DefenceItemData _itemData;
         protected bool _isInCooldown;
 
         public void RemoveEnemyFromTargets(Enemy target)
         {
-            if (_enemiesInRange.Contains(target))
+            if (enemiesInRange.Contains(target))
             {
-                _enemiesInRange.Remove(target);
+                enemiesInRange.Remove(target);
             }
         }
 
         public void AddEnemyAsTarget(Enemy newTarget)
         {
-            if (!_enemiesInRange.Contains(newTarget))
+            if (!enemiesInRange.Contains(newTarget) && newTarget.isActiveAndEnabled)
             {
-                _enemiesInRange.Add(newTarget);
+                enemiesInRange.Add(newTarget);
             }
 
             if (!_isInCooldown)
                 DoNextAttackCycle();
         }
 
-        public void Initialize(DefenceItemData itemData)
+        public void Initialize(DefenceItemData itemData, List<BoardSlot> boardSlots)
         {
             _itemData = itemData;
-
+            affectedBoardSlots = boardSlots;
+            
             AdjustAttackVFX();
             DoNextAttackCycle();
         }
 
         public void ClearEnemiesInRange()
         {
-            _enemiesInRange.Clear(); 
+            enemiesInRange.Clear(); 
         }
 
         protected void DoNextAttackCycle()
         {
-            if (_enemiesInRange is { Count: > 0 }) AttackEnemies();
+            if (enemiesInRange is { Count: > 0 }) AttackEnemies();
         }
 
         protected IEnumerator AttackCooldownRoutine()

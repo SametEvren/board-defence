@@ -12,7 +12,7 @@ namespace Defence
     {
         [SerializeField] protected DefenceItemData defenceItemData;
         [SerializeField] protected DefenceItemType itemType;
-        [SerializeField] protected List<BoardSlot> affectedSlots = new List<BoardSlot>();
+        [SerializeField] protected List<BoardSlot> affectedSlots = new ();
 
         public SlotOccupantType OccupantType => SlotOccupantType.Defence;
         public event Action<ISlotOccupier> OnRemovedFromSlot;
@@ -45,7 +45,7 @@ namespace Defence
         public void Initialize()
         {
             _currentHealth = Data.health;
-            Attack.Initialize(Data);
+            Attack.Initialize(Data, affectedSlots);
         }
 
         public void SetAffectedSlots(List<BoardSlot> newSlots)

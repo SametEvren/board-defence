@@ -145,6 +145,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 9012207015403378355, guid: d173314f3aef29942833a06327384318, type: 3}
       insertIndex: -1
       addedObject: {fileID: -8564848620536793677}
+    - targetCorrespondingSourceObject: {fileID: 9012207015403378355, guid: d173314f3aef29942833a06327384318, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1401632520233875099}
   m_SourcePrefab: {fileID: 100100000, guid: d173314f3aef29942833a06327384318, type: 3}
 --- !u!1 &1408089275790465904 stripped
 GameObject:
@@ -165,6 +168,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defenceItemData: {fileID: 11400000, guid: 0fc3c64b2b1592749bc64e65d79facb8, type: 2}
   itemType: 1
+  affectedSlots: []
+--- !u!114 &1401632520233875099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408089275790465904}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ceb62471c88ffcf4bb2ebde66a7b76f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemiesInRange: []
+  affectedBoardSlots: []
+  attackFxPrefab: {fileID: 1206498299807332549, guid: af6c1e3f046eecd4d81330aeb285600f, type: 3}
 --- !u!4 &7962761917383502635 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7365569209116392, guid: d173314f3aef29942833a06327384318, type: 3}

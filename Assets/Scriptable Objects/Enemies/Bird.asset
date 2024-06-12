@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Bird
   m_EditorClassIdentifier: 
   health: 5
+  damage: 10
   speed: 0.5

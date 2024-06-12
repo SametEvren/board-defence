@@ -16,7 +16,7 @@ namespace Defence.Pharaoh
 
             _particleSystem.Play();
 
-            var enemiesToDamage = new List<Enemy>(_enemiesInRange);
+            var enemiesToDamage = new List<Enemy>(enemiesInRange);
          
             foreach (var enemy in enemiesToDamage)
             {

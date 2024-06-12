@@ -13,4 +13,5 @@ MonoBehaviour:
   m_Name: Cat
   m_EditorClassIdentifier: 
   health: 3
+  damage: 6
   speed: 1
