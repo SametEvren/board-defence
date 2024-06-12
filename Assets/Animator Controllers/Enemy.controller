@@ -64,13 +64,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400006, guid: 965c00953f7f07b4bb3ddc3291340a40, type: 3}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: speedOfMovement
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -91,13 +91,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400004, guid: 965c00953f7f07b4bb3ddc3291340a40, type: 3}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: speedOfMovement
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -158,7 +158,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Death
+  m_Name: Defeat
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -167,13 +167,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400012, guid: 965c00953f7f07b4bb3ddc3291340a40, type: 3}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: speedOfMovement
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -217,7 +217,7 @@ AnimatorState:
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400000, guid: 965c00953f7f07b4bb3ddc3291340a40, type: 3}
   m_Tag: 
-  m_SpeedParameter: walkSpeed
+  m_SpeedParameter: speedOfMovement
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -277,7 +277,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 0}
-  - m_Name: walkSpeed
+  - m_Name: speedOfMovement
     m_Type: 1
     m_DefaultFloat: 1
     m_DefaultInt: 0
@@ -313,13 +313,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400008, guid: 965c00953f7f07b4bb3ddc3291340a40, type: 3}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: speedOfMovement
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
@@ -365,13 +365,13 @@ AnimatorState:
   m_IKOnFeet: 0
   m_WriteDefaultValues: 1
   m_Mirror: 0
-  m_SpeedParameterActive: 0
+  m_SpeedParameterActive: 1
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 7400010, guid: 965c00953f7f07b4bb3ddc3291340a40, type: 3}
   m_Tag: 
-  m_SpeedParameter: 
+  m_SpeedParameter: speedOfMovement
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 

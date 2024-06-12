@@ -2,15 +2,18 @@
 using System.Linq;
 using Board;
 using DG.Tweening;
-using UnityEditor.Animations;
 using UnityEngine;
 using Zenject;
 
 namespace Enemies
 {
+    [RequireComponent(typeof(Animator))]
     public sealed class EnemyMovement : MonoBehaviour
     {
+        public event Action<BoardSlot> OnStoppedByEnemy;
+            
         private BoardController _boardController;
+        
         [Inject]
         public void Construct(BoardController boardController)
         {
@@ -24,6 +27,8 @@ namespace Enemies
         private Action<BoardSlot> _onEnterSlot;
         private Animator _animator;
         private BoardSlot _currentTarget;
+        private static readonly int IsWalking = Animator.StringToHash("isWalking");
+        private static readonly int SpeedOfMovement = Animator.StringToHash("speedOfMovement");
 
         private void Awake()
         {
@@ -78,8 +83,9 @@ namespace Enemies
 
         private void HandleObstacleReached()
         {
-            _animator.SetBool("isWalking", false);
+            _animator.SetBool(IsWalking, false);
             _currentTarget.OnOccupationChanged += HandleObstacleOccupationChanged;
+            OnStoppedByEnemy?.Invoke(_currentTarget);
         }
 
         private void HandleObstacleOccupationChanged(ISlotOccupier occupier, bool isOccupied)
@@ -97,8 +103,8 @@ namespace Enemies
         {
             var movementDuration = 1f / _speed;
             
-            _animator.SetBool("isWalking", true);
-            _animator.SetFloat("walkSpeed", _speed);
+            _animator.SetBool(IsWalking, true);
+            _animator.SetFloat(SpeedOfMovement, _speed);
             
             _movementSequence = DOTween.Sequence()
                 .Append(transform.DOMove(_currentTarget.transform.position, movementDuration).SetEase(Ease.Linear))
