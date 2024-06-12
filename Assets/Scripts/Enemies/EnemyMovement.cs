@@ -53,7 +53,8 @@ namespace Enemies
         private void MoveToSlot(BoardSlot targetSlot)
         {
             var currentOccupants = targetSlot.CurrentOccupants;
-            if (currentOccupants != null && currentOccupants.Any(o => o.OccupantType == SlotOccupantType.Defence))
+            if (currentOccupants != null && 
+                currentOccupants.Any(o => o.OccupantType == SlotOccupantType.Defence))
                 return;
             
             BeginMovement(targetSlot);
@@ -65,7 +66,7 @@ namespace Enemies
                 Vector3.Distance(targetSlot.transform.position, transform.position) / _speed;
             
             _movementSequence = DOTween.Sequence()
-                .Append(transform.DOMove(targetSlot.transform.position, movementDuration))
+                .Append(transform.DOMove(targetSlot.transform.position, movementDuration).SetEase(Ease.Linear))
                 .Insert(movementDuration/2f,DOVirtual.DelayedCall(0, () =>
                 {
                     _currentCoordinates = targetSlot.BoardCoordinates;
