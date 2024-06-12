@@ -2,6 +2,7 @@
 using System.Linq;
 using Board;
 using DG.Tweening;
+using UnityEditor.Animations;
 using UnityEngine;
 using Zenject;
 
@@ -21,6 +22,12 @@ namespace Enemies
         private Vector2Int _currentCoordinates;
         private float _speed;
         private Action<BoardSlot> _onEnterSlot;
+        private Animator _animator;
+
+        private void Awake()
+        {
+            _animator = GetComponent<Animator>();
+        }
 
         internal void Initialize(Vector2Int currentBoardCoordinates, float movementSpeed, Action<BoardSlot> onEnterSlot)
         {
@@ -62,8 +69,10 @@ namespace Enemies
 
         private void BeginMovement(BoardSlot targetSlot)
         {
-            var movementDuration =
-                Vector3.Distance(targetSlot.transform.position, transform.position) / _speed;
+            var movementDuration = 1f / _speed;
+            
+            _animator.SetBool("isWalking", true);
+            _animator.SetFloat("walkSpeed", _speed);
             
             _movementSequence = DOTween.Sequence()
                 .Append(transform.DOMove(targetSlot.transform.position, movementDuration).SetEase(Ease.Linear))

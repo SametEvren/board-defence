@@ -3425,8 +3425,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4048414121285236}
   - component: {fileID: 95657439293936340}
+  - component: {fileID: 5309048451547136868}
+  - component: {fileID: 8043936736434770054}
   m_Layer: 0
-  m_Name: Skeleton1
+  m_Name: Mummy Enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3463,7 +3465,7 @@ Animator:
   m_GameObject: {fileID: 1895212641966680}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 965c00953f7f07b4bb3ddc3291340a40, type: 3}
-  m_Controller: {fileID: 9100000, guid: faea7509dacadf240a655f51924fb58a, type: 2}
+  m_Controller: {fileID: 22100000, guid: c544de651c5c23145905238d4997cf9c, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -3474,6 +3476,31 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &5309048451547136868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895212641966680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88e2c404f449489caa8e309f987dde79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyData: {fileID: 11400000, guid: 2abf63406a9f1d34ba89d6d0da1c114b, type: 2}
+--- !u!114 &8043936736434770054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895212641966680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd464f1f001644d3a57ba260f348fb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1922268467297602
 GameObject:
   m_ObjectHideFlags: 0

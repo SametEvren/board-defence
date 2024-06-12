@@ -63,9 +63,21 @@ namespace Enemies
         {
             if (Input.GetKeyDown(KeyCode.S))
             {
-                var bird = _birdEnemyPool.Get();
-                bird.GetComponent<Enemy>().InitializeEnemy(new Vector2Int(3,7));
+                var enemy = _mummyEnemyPool.Get();
+                enemy.GetComponent<Enemy>().InitializeEnemy(new Vector2Int(3,7));
             }
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                var enemy = _catEnemyPool.Get();
+                enemy.GetComponent<Enemy>().InitializeEnemy(new Vector2Int(2,7));
+            }
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                var enemy = _birdEnemyPool.Get();
+                enemy.GetComponent<Enemy>().InitializeEnemy(new Vector2Int(1,7));
+            }
+            
+            
         }
     }
 }

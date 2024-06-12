@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 802a32e3b6b24920bf26921a1b0ace6d, type: 3}
-  m_Name: Bird
+  m_Name: Cat
   m_EditorClassIdentifier: 
-  health: 5
-  speed: 0.5
+  health: 3
+  speed: 1
