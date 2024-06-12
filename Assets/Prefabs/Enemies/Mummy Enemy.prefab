@@ -3427,6 +3427,7 @@ GameObject:
   - component: {fileID: 95657439293936340}
   - component: {fileID: 5309048451547136868}
   - component: {fileID: 8043936736434770054}
+  - component: {fileID: 2601715222966418422}
   m_Layer: 0
   m_Name: Mummy Enemy
   m_TagString: Untagged
@@ -3488,6 +3489,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88e2c404f449489caa8e309f987dde79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyType: 1
   enemyData: {fileID: 11400000, guid: 2abf63406a9f1d34ba89d6d0da1c114b, type: 2}
 --- !u!114 &8043936736434770054
 MonoBehaviour:
@@ -3499,6 +3501,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cd464f1f001644d3a57ba260f348fb39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2601715222966418422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1895212641966680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc284fc70704418393cd6eb83705d139, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1922268467297602

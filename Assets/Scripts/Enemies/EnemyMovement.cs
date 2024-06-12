@@ -115,5 +115,10 @@ namespace Enemies
                 }))
                 .OnComplete(MakeNextMove);
         }
+
+        public void KillMovementSequence()
+        {
+            _movementSequence.Kill(false);
+        }
     }
 }

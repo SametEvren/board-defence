@@ -39,9 +39,9 @@ namespace Board
 
         private void RemoveOccupant(ISlotOccupier oldOccupant)
         {
+            oldOccupant.OnRemovedFromSlot -= RemoveOccupant;
             _currentOccupants ??= new List<ISlotOccupier>();
             _currentOccupants.Remove(oldOccupant);
-            oldOccupant.OnRemovedFromSlot -= RemoveOccupant;
             OnOccupationChanged?.Invoke(oldOccupant, false);
         }
 

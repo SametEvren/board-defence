@@ -1,6 +1,6 @@
 ﻿using Board;
 
-namespace Defence
+namespace Defence.Anubis
 {
     public class AnubisDefenceItem : DefenceItem
     {

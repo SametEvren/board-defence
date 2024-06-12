@@ -1,8 +1,8 @@
 ﻿using Board;
 
-namespace Defence
+namespace Defence.Bastet
 {
-    public class PharaohDefenceItem : DefenceItem
+    public class BastetDefenceItem : DefenceItem
     {
         protected override void HandleChangeInArea(ISlotOccupier occupier, bool added)
         {

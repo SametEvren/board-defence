@@ -2,6 +2,7 @@
 using System.Linq;
 using Board;
 using Defence;
+using DG.Tweening;
 using UnityEngine;
 using Zenject;
 
@@ -11,8 +12,8 @@ namespace Enemies
     [RequireComponent(typeof(EnemyAttack))]
     public abstract class Enemy : MonoBehaviour, ISlotOccupier
     {
+        [SerializeField] protected EnemyType enemyType;
         [SerializeField] protected EnemyData enemyData;
-        public EnemyData EnemyData => enemyData;
         
         public SlotOccupantType OccupantType => SlotOccupantType.Enemy;
         public event Action<ISlotOccupier> OnRemovedFromSlot;
@@ -23,6 +24,8 @@ namespace Enemies
         private EnemyAttack _enemyAttack;
 
         private BoardController _boardController;
+        private EnemySpawnController _enemySpawnController;
+        private float _currentHealth;
 
         private void Awake()
         {
@@ -31,13 +34,15 @@ namespace Enemies
         }
 
         [Inject]
-        public void Construct(BoardController boardController)
+        public void Construct(BoardController boardController, EnemySpawnController enemySpawnController)
         {
             _boardController = boardController;
+            _enemySpawnController = enemySpawnController;
         }
 
         public void InitializeEnemy(Vector2Int coordinates)
         {
+            _currentHealth = enemyData.health;
             _currentBoardCoordinates = coordinates;
             var spawnSlot = _boardController.BoardSlots[coordinates.x, coordinates.y];
             spawnSlot.OccupySlot(this);
@@ -58,6 +63,26 @@ namespace Enemies
             if(defender == null) return;
 
             _enemyAttack.StartAttacking(defender, enemyData.damage);
+        }
+
+        public void TakeDamage(float damage)
+        {
+            if(_currentHealth <= 0) return;
+            
+            _currentHealth -= damage;
+            //TODO: Particles etc.
+            
+            if (_currentHealth <= 0)
+            {
+                OnDefeat();
+            }
+        }
+
+        private void OnDefeat()
+        {
+            _enemyMovement.KillMovementSequence();
+            _enemySpawnController.ReleaseEnemy(enemyType, gameObject);
+            OnRemovedFromSlot?.Invoke(this);
         }
     }
 }

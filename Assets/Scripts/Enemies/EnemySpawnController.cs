@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using Board;
+using Defence;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
@@ -76,8 +78,41 @@ namespace Enemies
                 var enemy = _birdEnemyPool.Get();
                 enemy.GetComponent<Enemy>().InitializeEnemy(new Vector2Int(1,7));
             }
-            
-            
+        }
+        
+        public GameObject GetEnemy(EnemyType enemyType)
+        {
+            switch (enemyType)
+            {
+                case EnemyType.None:
+                    return null;
+                case EnemyType.Mummy:
+                    return _mummyEnemyPool.Get();
+                case EnemyType.Bird:
+                    return _birdEnemyPool.Get();
+                case EnemyType.Cat:
+                    return _catEnemyPool.Get();
+                default:
+                    return null;
+            }
+        }
+
+        public void ReleaseEnemy(EnemyType enemyType, GameObject item)
+        {
+            switch (enemyType)
+            {
+                case EnemyType.None:
+                    break;
+                case EnemyType.Mummy:
+                    _mummyEnemyPool.Release(item);
+                    break;
+                case EnemyType.Bird:
+                    _birdEnemyPool.Release(item);
+                    break;
+                case EnemyType.Cat:
+                    _catEnemyPool.Release(item);
+                    break;
+            }
         }
     }
 }

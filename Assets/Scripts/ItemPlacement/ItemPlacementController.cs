@@ -144,7 +144,7 @@ namespace ItemPlacement
             _currentCoordinates = Vector2Int.one * -1;
             Destroy(_currentItem.gameObject);
             _currentItem = null;
-            _potentialAffectedArea.Clear();
+            _potentialAffectedArea?.Clear();
             PlacementHighlighter.ResetHighLights();
         }
     }

@@ -14,6 +14,7 @@ namespace Dependency_Injection
             Container.Bind<IDefenceItemFactory>().To<DefenceItemFactory>().AsSingle();
             Container.Bind<BoardController>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<DefenceItemPool>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.Bind<EnemySpawnController>().FromComponentInHierarchy().AsSingle().NonLazy();
         }
     }
 }

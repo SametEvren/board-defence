@@ -12,13 +12,14 @@ namespace Defence
     {
         [SerializeField] protected DefenceItemData defenceItemData;
         [SerializeField] protected DefenceItemType itemType;
-        [SerializeField] protected List<BoardSlot> affectedSlots;
-        [SerializeField] protected List<Enemy> affectedEnemies;
+        [SerializeField] protected List<BoardSlot> affectedSlots = new List<BoardSlot>();
 
         public SlotOccupantType OccupantType => SlotOccupantType.Defence;
         public event Action<ISlotOccupier> OnRemovedFromSlot;
         public DefenceItemData Data => defenceItemData;
         public DefenceItemType ItemType => itemType;
+
+        protected DefenceItemAttack Attack;
 
         private float _currentHealth;
 
@@ -34,21 +35,22 @@ namespace Defence
         {
             _currentHealth -= amount;
             //TODO: Particles etc.
-            
+
             if (_currentHealth <= 0)
             {
                 OnDefeat();
             }
         }
 
-        public virtual void Initialize()
+        public void Initialize()
         {
             _currentHealth = Data.health;
+            Attack.Initialize(Data);
         }
 
         public void SetAffectedSlots(List<BoardSlot> newSlots)
         {
-            if (affectedSlots != null && affectedSlots.Count > 0) 
+            if (affectedSlots != null && affectedSlots.Count > 0)
                 StopListeningToAffectedSlots();
 
             foreach (var slot in newSlots)
@@ -60,18 +62,28 @@ namespace Defence
 
         private void StopListeningToAffectedSlots()
         {
-            foreach (var slot in affectedSlots) 
+            if (affectedSlots == null) return;
+
+            foreach (var slot in affectedSlots)
                 slot.OnOccupationChanged -= HandleChangeInArea;
+
+            affectedSlots.Clear();
         }
 
         protected virtual void HandleChangeInArea(ISlotOccupier occupier, bool added)
         {
-            if(occupier == null || occupier.OccupantType == SlotOccupantType.Defence)
-                return;
+            if (occupier is not { OccupantType: SlotOccupantType.Enemy }) return;
+
+            if (added)
+                Attack.AddEnemyAsTarget((Enemy)occupier);
+            else
+                Attack.RemoveEnemyFromTargets((Enemy)occupier);
         }
 
         private void OnDefeat()
         {
+            StopListeningToAffectedSlots();
+            Attack.ClearEnemiesInRange(); 
             _defenceItemPool.ReleaseDefenceItem(itemType, this);
             OnRemovedFromSlot?.Invoke(this);
         }
