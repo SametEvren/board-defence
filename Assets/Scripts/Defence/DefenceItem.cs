@@ -30,7 +30,7 @@ namespace Defence
             _defenceItemPool = defenceItemPool;
         }
 
-        public void TakeDamage(int amount)
+        public void TakeDamage(float amount)
         {
             _currentHealth -= amount;
             //TODO: Particles etc.
@@ -72,7 +72,7 @@ namespace Defence
 
         private void OnDefeat()
         {
-            
+            _defenceItemPool.ReleaseDefenceItem(itemType, this);
             OnRemovedFromSlot?.Invoke(this);
         }
     }

@@ -57,7 +57,7 @@ namespace Enemies
             DefenceItem defender = (DefenceItem) encounterSlot.CurrentOccupants.FirstOrDefault(o => o.OccupantType == SlotOccupantType.Defence);
             if(defender == null) return;
 
-            _enemyAttack.StartAttacking(defender);
+            _enemyAttack.StartAttacking(defender, enemyData.damage);
         }
     }
 }

@@ -127,6 +127,7 @@ namespace ItemPlacement
             var item = _defenceItemPool.GetDefenceItem(defenceItemType);
             item.transform.position = Vector3.zero;
             item.transform.rotation = Quaternion.identity;
+            item.Initialize();
             item.gameObject.SetActive(true);
             return item;
         }

@@ -12,14 +12,17 @@ namespace Enemies
         private static readonly int AlternateAttack = Animator.StringToHash("alternateAttack");
 
         private DefenceItem _currentTarget;
+        private float _currentDamage;
+        
         private void Awake()
         {
             _animator = GetComponent<Animator>();
         }
 
-        public void StartAttacking(DefenceItem defender)
+        public void StartAttacking(DefenceItem defender, float damage)
         {
             _currentTarget = defender;
+            _currentDamage = damage;
             defender.OnRemovedFromSlot += OnDefeatedTarget;
             
             DoAttackAnimation();
@@ -32,11 +35,9 @@ namespace Enemies
             switch (rand)
             {
                 case 0:
-                    Debug.Log($"{name} attack 1");
                     _animator.SetTrigger(Attack);
                     break;
                 case 1:
-                    Debug.Log($"{name} attack 2");
                     _animator.SetTrigger(AlternateAttack);
                     break;
             }
@@ -56,12 +57,11 @@ namespace Enemies
 
         public void GiveDamage()
         {
-            Debug.Log("Damage Given to Enemy");
+            _currentTarget.TakeDamage(_currentDamage);
         }
 
         public void FinishWindDown()
         {
-            Debug.Log($"{name} finished wind down");
             if(_currentTarget != null && _currentTarget.isActiveAndEnabled)
                 DoAttackAnimation();
         }
