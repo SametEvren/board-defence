@@ -23,6 +23,7 @@ namespace Enemies
         private float _speed;
         private Action<BoardSlot> _onEnterSlot;
         private Animator _animator;
+        private BoardSlot _currentTarget;
 
         private void Awake()
         {
@@ -50,24 +51,49 @@ namespace Enemies
                 _currentCoordinates.y - 1
             );
 
-            if (nextCoordinates.y >= gridSize.y || nextCoordinates.y < 0) return;
+            if (nextCoordinates.y >= gridSize.y || nextCoordinates.y < 0)
+            {
+                //TODO: HandleExitGrid();
+                return;
+            }
 
-            var nextSlot = _boardController.BoardSlots[nextCoordinates.x, nextCoordinates.y];
+            _currentTarget = _boardController.BoardSlots[nextCoordinates.x, nextCoordinates.y];
             
-            MoveToSlot(nextSlot);
+            MoveToSlot(_currentTarget);
         }
 
         private void MoveToSlot(BoardSlot targetSlot)
         {
             var currentOccupants = targetSlot.CurrentOccupants;
+            
             if (currentOccupants != null && 
                 currentOccupants.Any(o => o.OccupantType == SlotOccupantType.Defence))
+            {
+                HandleObstacleReached();
                 return;
+            }
             
-            BeginMovement(targetSlot);
+            BeginMovement();
         }
 
-        private void BeginMovement(BoardSlot targetSlot)
+        private void HandleObstacleReached()
+        {
+            _animator.SetBool("isWalking", false);
+            _currentTarget.OnOccupationChanged += HandleObstacleOccupationChanged;
+        }
+
+        private void HandleObstacleOccupationChanged(ISlotOccupier occupier, bool isOccupied)
+        {
+            if (isOccupied) return;
+
+            if (_currentTarget.CurrentOccupants != null &&
+                _currentTarget.CurrentOccupants.Any(o => o.OccupantType == SlotOccupantType.Defence)) return;
+
+            _currentTarget.OnOccupationChanged -= HandleObstacleOccupationChanged;
+            BeginMovement();
+        }
+
+        private void BeginMovement()
         {
             var movementDuration = 1f / _speed;
             
@@ -75,11 +101,11 @@ namespace Enemies
             _animator.SetFloat("walkSpeed", _speed);
             
             _movementSequence = DOTween.Sequence()
-                .Append(transform.DOMove(targetSlot.transform.position, movementDuration).SetEase(Ease.Linear))
+                .Append(transform.DOMove(_currentTarget.transform.position, movementDuration).SetEase(Ease.Linear))
                 .Insert(movementDuration/2f,DOVirtual.DelayedCall(0, () =>
                 {
-                    _currentCoordinates = targetSlot.BoardCoordinates;
-                    _onEnterSlot?.Invoke(targetSlot);
+                    _currentCoordinates = _currentTarget.BoardCoordinates;
+                    _onEnterSlot?.Invoke(_currentTarget);
                 }))
                 .OnComplete(MakeNextMove);
         }

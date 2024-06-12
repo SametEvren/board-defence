@@ -42,7 +42,7 @@ namespace Defence
                 return;
         }
 
-        private void OnDestroy()
+        private void OnDefeat()
         {
             OnRemovedFromSlot?.Invoke(this);
         }
