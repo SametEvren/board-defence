@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
 using System.Collections;
+using DG.Tweening;
 
 namespace Player
 {
@@ -13,6 +14,7 @@ namespace Player
         [SerializeField] private Image playerHealthBar;
         [SerializeField] private GameObject defeatPanel;
         [SerializeField] private GameObject successPanel;
+        [SerializeField] private CanvasGroup damageIndicator;
         private const float DelayBeforeShowPanels = 2f;
 
         private PlayerController _playerController;
@@ -30,8 +32,16 @@ namespace Player
         private void Start()
         {
             _playerController.OnDamageTaken += UpdateHealthBar;
+            _playerController.OnDamageTaken += RenderDamageIndicator;
             _playerController.OnPlayerDestroyed += HandlePlayerDestroyed;
             _enemySpawnController.AllEnemiesDefeated += HandleAllEnemiesDefeated;
+        }
+
+        private void RenderDamageIndicator(float _, float __)
+        {
+            DOTween.Sequence()
+                .Append(damageIndicator.DOFade(1f, 0.2f))
+                .Append(damageIndicator.DOFade(0f, 0.3f));
         }
 
         private void HandlePlayerDestroyed()
