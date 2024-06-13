@@ -24,7 +24,6 @@ namespace Defence
             _damageUI = damageUI;
         }
         
-
         public void RemoveEnemyFromTargets(Enemy target)
         {
             if (enemiesInRange.Contains(target))
@@ -60,15 +59,19 @@ namespace Defence
 
         protected void DoNextAttackCycle()
         {
-            if (enemiesInRange is { Count: > 0 }) AttackEnemies();
+            if (enemiesInRange is { Count: > 0 })
+            {
+                AttackEnemies();
+                StartCoroutine(AttackCooldownRoutine());
+            }
         }
 
         protected IEnumerator AttackCooldownRoutine()
         {
             _isInCooldown = true;
             yield return new WaitForSeconds(_itemData.interval);
-            DoNextAttackCycle();
             _isInCooldown = false;
+            DoNextAttackCycle(); 
         }
 
         protected IEnumerator GiveDamage()
