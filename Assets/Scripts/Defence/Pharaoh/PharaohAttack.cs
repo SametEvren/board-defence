@@ -1,28 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using DG.Tweening;
-using Enemies;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Defence.Pharaoh
 {
     public class PharaohAttack : DefenceItemAttack
     {
-        [SerializeField] private ParticleSystem _particleSystem;
-        [SerializeField] private float _particleScaleFactor;
+        [SerializeField] private ParticleSystem attackParticle;
+        [SerializeField] private float particleScaleFactor;
         
         protected override void AttackEnemies()
         {
             StartCoroutine(nameof(AttackCooldownRoutine));
 
-            _particleSystem.Play();
+            attackParticle.Play();
 
             StartCoroutine(GiveDamage());
         }
         
         protected override void AdjustAttackVFX()
         {
-            _particleSystem.transform.localScale = Vector3.one * (1 + _particleScaleFactor * (_itemData.range - 1));
+            attackParticle.transform.localScale = Vector3.one * (1 + particleScaleFactor * (_itemData.range - 1));
         }
     }
 }

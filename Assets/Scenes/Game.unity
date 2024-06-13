@@ -746,7 +746,6 @@ MonoBehaviour:
   catPrefab: {fileID: 1940098064602988, guid: 4bb3ae919a4b33d4cb054a3d37a92221, type: 3}
   birdPrefab: {fileID: 1011237800896726, guid: 2b4bda023baf11846a7062827593eb49, type: 3}
   enemyInventory: []
-  enemySpawnParticle: {fileID: 411162811858430016, guid: 80f577f7331993a46a8f6a3265b0f83a, type: 3}
 --- !u!1 &569758310
 GameObject:
   m_ObjectHideFlags: 0
@@ -2181,7 +2180,7 @@ GameObject:
   - component: {fileID: 1504153674}
   - component: {fileID: 1504153675}
   m_Layer: 0
-  m_Name: ParticleHolder
+  m_Name: Particle Pool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2215,6 +2214,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyDisappearParticle: {fileID: 3435639225264046057, guid: 3423445d3ac6bf24fa1c5c2aba80b422, type: 3}
+  anubisAttackParticle: {fileID: 6721007384533448651, guid: 98557619806f23c499c9cdb620a31541, type: 3}
+  bastetAttackParticle: {fileID: 1206498299807332549, guid: af6c1e3f046eecd4d81330aeb285600f, type: 3}
+  enemySpawnParticle: {fileID: 411162811858430016, guid: 80f577f7331993a46a8f6a3265b0f83a, type: 3}
 --- !u!1 &1514945566
 GameObject:
   m_ObjectHideFlags: 0
@@ -3010,6 +3012,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5797588}
     m_Modifications:
+    - target: {fileID: 499431932161020200, guid: 015b564a7ca43824c9e815ba8b482d0d, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4084946832681554206, guid: 015b564a7ca43824c9e815ba8b482d0d, type: 3}
       propertyPath: m_Name
       value: Anubis Defender Sprite
@@ -3227,6 +3233,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5881783408054145733, guid: ffdd2d66723bb34439beca1437857beb, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8070092000650334963, guid: ffdd2d66723bb34439beca1437857beb, type: 3}
       propertyPath: m_Name
       value: Bastet Defender Sprite
@@ -3355,6 +3365,10 @@ PrefabInstance:
     - target: {fileID: 5868644092618186638, guid: 779ec4d716d21e249bc4b6a4f72f8781, type: 3}
       propertyPath: m_Name
       value: Pharaoh Defender Sprite
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011744888063598520, guid: 779ec4d716d21e249bc4b6a4f72f8781, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Board;
+using DG.Tweening;
+using Particles;
 using UIScripts;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -26,8 +28,6 @@ namespace Enemies
         private const int BirdCapacity = 10;
         
         [SerializeField] private List<EnemyInventory> enemyInventory;
-        [SerializeField] private ParticleSystem enemySpawnParticle;
-
         public event Action AllEnemiesDefeated;
         
         private const float SpawnInterval = 5f;
@@ -40,11 +40,13 @@ namespace Enemies
         private IEnemyFactory _enemyFactory;
         
         private BoardController _boardController;
+        private ParticlePool _particlePool;
         
         [Inject]
-        public void Construct(BoardController boardController)
+        public void Construct(BoardController boardController, ParticlePool particlePool)
         {
             _boardController = boardController;
+            _particlePool = particlePool;
         }
         
         private void Start()
@@ -134,18 +136,21 @@ namespace Enemies
 
         private IEnumerator SpawnEnemyWithParticleEffect(EnemyType enemyType, BoardSlot slot)
         {
-            var particleInstance = Instantiate(enemySpawnParticle, slot.transform.position, Quaternion.identity);
-            particleInstance.Play();
+            var enemySpawnParticle = _particlePool.GetEnemySpawnParticle();
+            enemySpawnParticle.transform.position = slot.transform.position;
+            enemySpawnParticle.Play();
 
-            yield return new WaitForSeconds(particleInstance.main.duration);
+            yield return new WaitForSeconds(enemySpawnParticle.main.duration);
 
             GameObject spawnedEnemy = GetEnemy(enemyType);
             if (spawnedEnemy != null)
             {
                 spawnedEnemy.GetComponent<Enemy>().InitializeEnemy(slot.BoardCoordinates);
             }
-
-            Destroy(particleInstance.gameObject, particleInstance.main.duration);
+            DOVirtual.DelayedCall(enemySpawnParticle.main.duration, () =>
+            {
+                _particlePool.ReleaseEnemySpawnVFX(enemySpawnParticle);
+            });
         }
 
         private Vector2Int GetRandomSpawnPosition()

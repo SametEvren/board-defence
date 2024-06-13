@@ -1,22 +1,34 @@
-using System.Collections.Generic;
-using Enemies;
-using UnityEngine;
+using Board;
+using DG.Tweening;
+using Particles;
+using Zenject;
 
 namespace Defence.Bastet
 {
     public class BastetAttack : DefenceItemAttack
     {
-        [SerializeField] private ParticleSystem attackFxPrefab;
+        private ParticlePool _particlePool;
+
+        [Inject]
+        private void Construct(ParticlePool particlePool)
+        {
+            _particlePool = particlePool;
+        }
+        
         protected override void AttackEnemies()
         {
             StartCoroutine(nameof(AttackCooldownRoutine));
 
             foreach (var slot in affectedBoardSlots)
             {
-                var transformOfSlot = slot.transform.position;
-                var instantiatedFx = Instantiate(attackFxPrefab, transformOfSlot, Quaternion.identity);
+                var slotPosition = slot.transform.position;
+                var instantiatedFx = _particlePool.GetAttackVFX(DefenceItemType.Bastet);
+                instantiatedFx.transform.position = slotPosition;
                 instantiatedFx.Play();
-                Destroy(instantiatedFx.gameObject,1f);
+                DOVirtual.DelayedCall(1f, () =>
+                {
+                    _particlePool.ReleaseAttackVFX(DefenceItemType.Bastet, instantiatedFx);
+                });
             }
             
             StartCoroutine(GiveDamage());

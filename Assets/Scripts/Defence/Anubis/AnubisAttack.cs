@@ -1,10 +1,21 @@
-﻿using UnityEngine;
+﻿using Board;
+using DG.Tweening;
+using Particles;
+using UnityEngine;
+using Zenject;
 
 namespace Defence.Anubis
 {
     public class AnubisAttack : DefenceItemAttack
     {
-        [SerializeField] private ParticleSystem attackFxPrefab;
+        private ParticlePool _particlePool;
+
+        [Inject]
+        private void Construct(ParticlePool particlePool)
+        {
+            _particlePool = particlePool;
+        }
+        
         protected override void AttackEnemies()
         {
             StartCoroutine(nameof(AttackCooldownRoutine));
@@ -12,9 +23,14 @@ namespace Defence.Anubis
             foreach (var slot in affectedBoardSlots)
             {
                 var slotPosition = slot.transform.position;
-                var instantiatedFx = Instantiate(attackFxPrefab, slotPosition + Vector3.up * 0.25f, Quaternion.identity);
+                var instantiatedFx = _particlePool.GetAttackVFX(DefenceItemType.Anubis);
+                instantiatedFx.transform.position = slotPosition + Vector3.up * 0.25f;
                 instantiatedFx.Play();
-                Destroy(instantiatedFx.gameObject,1f);
+                
+                DOVirtual.DelayedCall(1f, () =>
+                {
+                    _particlePool.ReleaseAttackVFX(DefenceItemType.Anubis, instantiatedFx);
+                });
             }
             
             StartCoroutine(GiveDamage());

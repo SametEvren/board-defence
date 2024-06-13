@@ -6,6 +6,7 @@ using DG.Tweening;
 using Particles;
 using Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Zenject;
 
 namespace Enemies
@@ -16,7 +17,7 @@ namespace Enemies
     {
         [SerializeField] protected EnemyType enemyType;
         [SerializeField] protected EnemyData enemyData;
-        [SerializeField] protected ParticleSystem disappearEffect;
+        [SerializeField] protected ParticleSystem circleDisappearEffet;
         
         public SlotOccupantType OccupantType => SlotOccupantType.Enemy;
         public event Action<ISlotOccupier> OnRemovedFromSlot;
@@ -31,7 +32,7 @@ namespace Enemies
         private BoardController _boardController;
         private EnemySpawnController _enemySpawnController;
         private PlayerController _playerController;
-        private ParticleHolder _particleHolder;
+        private ParticlePool _particlePool;
 
         private Sequence _disappearSequence;
 
@@ -41,12 +42,12 @@ namespace Enemies
         public void Construct(BoardController boardController, 
             EnemySpawnController enemySpawnController, 
             PlayerController playerController,
-            ParticleHolder particleHolder)
+            ParticlePool particlePool)
         {
             _boardController = boardController;
             _enemySpawnController = enemySpawnController;
             _playerController = playerController;
-            _particleHolder = particleHolder;
+            _particlePool = particlePool;
         }
         
         private void Awake()
@@ -66,19 +67,19 @@ namespace Enemies
             _playerController.TakeDamage(enemyData.damage);
             _enemyMovement.KillMovementSequence();
             
-            disappearEffect.transform.localScale = Vector3.one * 0.2f;
-            disappearEffect.gameObject.SetActive(true);
-            disappearEffect.Play();
-            _particleHolder.SpawnDisappearParticle(transform.position);
+            circleDisappearEffet.transform.localScale = Vector3.one * 0.2f;
+            circleDisappearEffet.gameObject.SetActive(true);
+            circleDisappearEffet.Play();
+            _particlePool.SpawnDisappearParticle(transform.position);
             
             _disappearSequence?.Kill();
             _disappearSequence = DOTween.Sequence()
                 .SetDelay(0.5f)
-                .Append(disappearEffect.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f, 1))
+                .Append(circleDisappearEffet.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f, 1))
                 .Append(transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.Linear))
                 .OnComplete(() =>
                 {
-                    disappearEffect.gameObject.SetActive(false);
+                    circleDisappearEffet.gameObject.SetActive(false);
                     OnRemovedFromSlot?.Invoke(this);
                     OnEnemyVanished?.Invoke(this);
                     _enemySpawnController.ReleaseEnemy(enemyType, gameObject);
