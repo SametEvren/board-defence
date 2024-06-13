@@ -6,15 +6,13 @@ namespace UIScripts
 {
     public class DamagePopUp : MonoBehaviour
     {
-        public static DamagePopUp Create(GameObject damagePopUpPrefab, Vector3 position, string popUpText, PopUpType popUpType)
+        public static void Create(GameObject damagePopUpPrefab, Vector3 position, string popUpText, PopUpType popUpType)
         {
             var damagePopUpTransform = Instantiate(damagePopUpPrefab);
             damagePopUpTransform.transform.position = position + Vector3.up * 2;
             
             var damagePopUp = damagePopUpTransform.GetComponent<DamagePopUp>();
             damagePopUp.Setup(popUpText, popUpType);
-
-            return damagePopUp;
         }
 
         private static int _sortingOrder;
@@ -72,7 +70,7 @@ namespace UIScripts
         private void Update()
         {
             transform.position += moveVector * Time.deltaTime;
-            moveVector -= moveVector * 8f * Time.deltaTime;
+            moveVector -= moveVector * (8f * Time.deltaTime);
         }
     }
 

@@ -15,13 +15,11 @@ namespace Enemies
         public event Action OnReachedPlayer;
             
         private BoardController _boardController;
-        private PlayerController _playerController;
         
         [Inject]
-        public void Construct(BoardController boardController, PlayerController playerController)
+        public void Construct(BoardController boardController)
         {
             _boardController = boardController;
-            _playerController = playerController;
         }
 
         private Sequence _movementSequence;

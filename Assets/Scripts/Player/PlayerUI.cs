@@ -1,5 +1,4 @@
-﻿using System;
-using Enemies;
+﻿using Enemies;
 using Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;

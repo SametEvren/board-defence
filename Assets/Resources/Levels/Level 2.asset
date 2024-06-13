@@ -23,8 +23,14 @@ MonoBehaviour:
     amount: 2
   enemyInventories:
   - enemyType: 3
-    amount: 5
+    amount: 2
   - enemyType: 1
     amount: 2
+  - enemyType: 3
+    amount: 2
   - enemyType: 2
-    amount: 3
+    amount: 2
+  - enemyType: 3
+    amount: 1
+  - enemyType: 2
+    amount: 1

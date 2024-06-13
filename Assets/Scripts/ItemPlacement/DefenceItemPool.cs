@@ -1,5 +1,4 @@
-﻿using System;
-using Board;
+﻿using Board;
 using Defence;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -91,8 +90,6 @@ namespace ItemPlacement
                     break;
                 case DefenceItemType.Pharaoh:
                     _pharaohPool.Release(item);
-                    break;
-                default:
                     break;
             }
         }

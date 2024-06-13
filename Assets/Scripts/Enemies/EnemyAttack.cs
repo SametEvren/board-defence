@@ -64,12 +64,6 @@ namespace Enemies
             if (_currentTarget == null)
                 return;
             
-            if (_damageUI == null || _damageUI.damagePopUpPrefab == null)
-            {
-                Debug.LogError("DamageUI or damagePopUpPrefab is not set");
-                return;
-            }
-            
             DamagePopUp.Create(_damageUI.damagePopUpPrefab, _currentTarget.gameObject.transform.position,
                 _currentDamage.ToString(), PopUpType.EnemyDamage);
             _currentTarget.TakeDamage(_currentDamage);

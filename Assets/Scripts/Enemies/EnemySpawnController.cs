@@ -37,7 +37,6 @@ namespace Enemies
         private int _defeatedEnemies;
         public List<Vector2Int> possibleSpawnPositions { get; private set; }
         
-        public event Action<EnemyType, int> EnemyInventoryUpdated;
         
         [Inject]
         private IEnemyFactory _enemyFactory;
@@ -77,7 +76,6 @@ namespace Enemies
             {
                 enemyInventory.Add(new EnemyInventory(enemyItem.enemyType, enemyItem.amount));
                 _totalEnemies += enemyItem.amount;
-                EnemyInventoryUpdated?.Invoke(enemyItem.enemyType, enemyItem.amount);
             }
         }
 
@@ -132,7 +130,6 @@ namespace Enemies
                             {
                                 StartCoroutine(SpawnEnemyWithParticleEffect(enemy.enemyType, slot));
                                 enemy.amount--;
-                                EnemyInventoryUpdated?.Invoke(enemy.enemyType, enemy.amount);
                                 isSpawning = false;
                             }
                         });
