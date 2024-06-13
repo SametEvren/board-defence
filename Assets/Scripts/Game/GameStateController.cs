@@ -1,18 +1,11 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Game
 {
     public class GameStateController : MonoBehaviour
     {
-        [SerializeField] private GameState currentState = GameState.Playing;
-
-        public GameState CurrentState
-        {
-            get => currentState;
-            private set => currentState = value;
-        }
+        public GameState CurrentState { get; private set; } = GameState.Playing;
 
         public event Action<GameState> OnGameStateChanged;
 

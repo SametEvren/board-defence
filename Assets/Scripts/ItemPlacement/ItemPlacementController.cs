@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Audio;
 using Board;
 using Defence;
 using UIScripts;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Zenject;
 
 namespace ItemPlacement
@@ -31,6 +33,14 @@ namespace ItemPlacement
             _boardController = boardController;
             _defenceItemPool = defenceItemPool;
             _audioController = audioController;
+        }
+        
+        private void OnValidate()
+        {
+            Assert.IsNotNull(playerCamera);
+            Assert.IsNotNull(itemPrefabs);
+            Assert.IsTrue(itemPrefabs.Count == Enum.GetValues(typeof(DefenceItemType)).Length - 1);
+            Assert.IsNotNull(placementParticle);
         }
 
         private void Update()

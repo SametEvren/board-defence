@@ -4,6 +4,7 @@ using Board;
 using Enemies;
 using ItemPlacement;
 using UnityEngine;
+using UnityEngine.Assertions;
 using Zenject;
 
 namespace Defence
@@ -12,7 +13,8 @@ namespace Defence
     {
         [SerializeField] protected DefenceItemData defenceItemData;
         [SerializeField] protected DefenceItemType itemType;
-        [SerializeField] protected List<BoardSlot> affectedSlots = new ();
+        
+        private readonly List<BoardSlot> _affectedSlots = new ();
 
         public SlotOccupantType OccupantType => SlotOccupantType.Defence;
         public event Action<ISlotOccupier> OnRemovedFromSlot;
@@ -24,13 +26,19 @@ namespace Defence
         private float _currentHealth;
 
         private DefenceItemPool _defenceItemPool;
-
+        
         [Inject]
         private void Construct(DefenceItemPool defenceItemPool)
         {
             _defenceItemPool = defenceItemPool;
         }
-
+        
+        private void OnValidate()
+        {
+            Assert.IsNotNull(defenceItemData);
+            Assert.IsTrue(itemType != DefenceItemType.None);
+        }
+        
         public void TakeDamage(float amount)
         {
             _currentHealth -= amount;
@@ -45,12 +53,12 @@ namespace Defence
         public void Initialize()
         {
             _currentHealth = Data.health;
-            Attack.Initialize(Data, affectedSlots);
+            Attack.Initialize(Data, _affectedSlots);
         }
 
         public void GetEnemiesInRange()
         {
-            foreach (var boardSlot in affectedSlots)
+            foreach (var boardSlot in _affectedSlots)
             {
                 foreach (var currentOcuppant in boardSlot.CurrentOccupants)
                 {
@@ -65,12 +73,12 @@ namespace Defence
 
         public void SetAffectedSlots(List<BoardSlot> newSlots)
         {
-            if (affectedSlots != null && affectedSlots.Count > 0)
+            if (_affectedSlots != null && _affectedSlots.Count > 0)
                 StopListeningToAffectedSlots();
 
             foreach (var slot in newSlots)
             {
-                affectedSlots.Add(slot);
+                _affectedSlots.Add(slot);
                 slot.OnOccupationChanged += HandleChangeInArea;
             }
             GetEnemiesInRange();
@@ -78,12 +86,12 @@ namespace Defence
 
         private void StopListeningToAffectedSlots()
         {
-            if (affectedSlots == null) return;
+            if (_affectedSlots == null) return;
 
-            foreach (var slot in affectedSlots)
+            foreach (var slot in _affectedSlots)
                 slot.OnOccupationChanged -= HandleChangeInArea;
 
-            affectedSlots.Clear();
+            _affectedSlots.Clear();
         }
 
         protected virtual void HandleChangeInArea(ISlotOccupier occupier, bool added)

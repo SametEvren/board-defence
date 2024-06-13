@@ -6,6 +6,7 @@ using DG.Tweening;
 using Particles;
 using UIScripts;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Pool;
 using Zenject;
 
@@ -47,6 +48,14 @@ namespace Enemies
         {
             _boardController = boardController;
             _particlePool = particlePool;
+        }
+        
+        private void OnValidate()
+        {
+            Assert.IsNotNull(enemyParent);
+            Assert.IsNotNull(mummyPrefab);
+            Assert.IsNotNull(catPrefab);
+            Assert.IsNotNull(birdPrefab);
         }
         
         private void Start()

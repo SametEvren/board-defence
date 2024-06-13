@@ -1,6 +1,7 @@
 ﻿using System;
 using Board;
 using DG.Tweening;
+using ModestTree;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -19,6 +20,14 @@ namespace Particles
         
         private ObjectPool<ParticleSystem> _enemySpawnPool;
         [SerializeField] private ParticleSystem enemySpawnParticle;
+
+        private void OnValidate()
+        {
+            Assert.IsNotNull(enemyDisappearParticle);
+            Assert.IsNotNull(anubisAttackParticle);
+            Assert.IsNotNull(bastetAttackParticle);
+            Assert.IsNotNull(enemySpawnParticle);
+        }
 
         private void Start()
         {

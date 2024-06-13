@@ -1,3 +1,4 @@
+using ModestTree;
 using UnityEngine;
 
 namespace Enemies
@@ -12,6 +13,11 @@ namespace Enemies
         private static readonly int Damage = Animator.StringToHash("getDamage");
         private static readonly int Death1 = Animator.StringToHash("death");
 
+        private void OnValidate()
+        {
+            Assert.IsNotNull(animator);
+        }
+        
         private void Update()
         {
             if(Input.GetKeyDown(KeyCode.Alpha0) || Input.GetKeyDown(KeyCode.Keypad0))

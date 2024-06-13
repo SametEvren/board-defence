@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Board
 {
@@ -22,8 +23,14 @@ namespace Board
 
         [SerializeField] private Vector2Int _coordinates;
         public Vector2Int BoardCoordinates { get => _coordinates; private set => _coordinates = value; }
-        
-        
+
+        private void OnValidate()
+        {
+            Assert.IsNotNull(unplaceableSlotMaterial);
+            Assert.IsNotNull(placeableSlotMaterial);
+            Assert.IsNotNull(highlightMaterial);
+        }
+
         private void Awake()
         {
             _meshRenderer = GetComponent<MeshRenderer>();

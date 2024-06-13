@@ -6,7 +6,7 @@ using DG.Tweening;
 using Particles;
 using Player;
 using UnityEngine;
-using UnityEngine.Serialization;
+using UnityEngine.Assertions;
 using Zenject;
 
 namespace Enemies
@@ -48,6 +48,13 @@ namespace Enemies
             _enemySpawnController = enemySpawnController;
             _playerController = playerController;
             _particlePool = particlePool;
+        }
+        
+        private void OnValidate()
+        {
+            Assert.IsNotNull(enemyData);
+            Assert.IsNotNull(circleDisappearEffect);
+            Assert.IsTrue(enemyType != EnemyType.None);
         }
         
         private void Awake()

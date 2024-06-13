@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Audio
 {
@@ -9,6 +10,12 @@ namespace Audio
 
         private AudioSource _secretsOfThothSource;
         private AudioSource _firstPharaohSource;
+
+        private void OnValidate()
+        {
+            Assert.IsNotNull(secretsOfThothClip);
+            Assert.IsNotNull(firstPharaohClip);
+        }
 
         private void Awake()
         {

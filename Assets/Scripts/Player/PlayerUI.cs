@@ -1,4 +1,5 @@
-﻿using Enemies;
+﻿using System;
+using Enemies;
 using Game;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,6 +7,7 @@ using UnityEngine.UI;
 using Zenject;
 using System.Collections;
 using DG.Tweening;
+using ModestTree;
 
 namespace Player
 {
@@ -28,7 +30,15 @@ namespace Player
             _enemySpawnController = enemySpawnController;
             _gameStateController = gameStateController;
         }
-        
+
+        private void OnValidate()
+        {
+            Assert.IsNotNull(playerHealthBar);
+            Assert.IsNotNull(defeatPanel);
+            Assert.IsNotNull(successPanel);
+            Assert.IsNotNull(damageIndicator);
+        }
+
         private void Start()
         {
             _playerController.OnDamageTaken += UpdateHealthBar;

@@ -1,5 +1,5 @@
-using System;
 using Game;
+using ModestTree;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
@@ -30,6 +30,17 @@ namespace Game_Speed
             _gameStateController.OnGameStateChanged += HandleGameStateChanged;
         }
 
+        private void OnValidate()
+        {
+            Assert.IsNotNull(pauseControlImage);
+            Assert.IsNotNull(speedControlImage);
+            
+            Assert.IsNotNull(pauseSprite);
+            Assert.IsNotNull(playSprite);
+            Assert.IsNotNull(fastForwardSprite);
+            Assert.IsNotNull(normalSpeedSprite);
+        }
+        
         private void Start()
         {
             Time.timeScale = 1;

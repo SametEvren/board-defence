@@ -8,19 +8,19 @@ namespace UIScripts
 {
     public class EnemySpawnIndicator : MonoBehaviour
     {
-        [SerializeField] private Image _enemySpawnIndicator;
-        public Sprite mummySprite;
-        public Sprite catSprite;
-        public Sprite birdSprite;
+        private Image _enemySpawnIndicator;
+        private Sprite _mummySprite;
+        private Sprite _catSprite;
+        private Sprite _birdSprite;
 
         private Action _onComplete;
 
-        public void SetSpawnIndicator(Image indicator, Sprite _mummySprite, Sprite _catSprite, Sprite _birdSprite)
+        public void SetSpawnIndicator(Image indicator, Sprite mummySprite, Sprite catSprite, Sprite birdSprite)
         {
             _enemySpawnIndicator = indicator;
-            mummySprite = _mummySprite;
-            catSprite = _catSprite;
-            birdSprite = _birdSprite;
+            _mummySprite = mummySprite;
+            _catSprite = catSprite;
+            _birdSprite = birdSprite;
         }
 
         public void SetSprite(EnemyType enemyType, Action onComplete)
@@ -30,13 +30,13 @@ namespace UIScripts
             switch (enemyType)
             {
                 case EnemyType.Mummy:
-                    _enemySpawnIndicator.sprite = mummySprite;
+                    _enemySpawnIndicator.sprite = _mummySprite;
                     break;
                 case EnemyType.Cat:
-                    _enemySpawnIndicator.sprite = catSprite;
+                    _enemySpawnIndicator.sprite = _catSprite;
                     break;
                 case EnemyType.Bird:
-                    _enemySpawnIndicator.sprite = birdSprite;
+                    _enemySpawnIndicator.sprite = _birdSprite;
                     break;
             }
 

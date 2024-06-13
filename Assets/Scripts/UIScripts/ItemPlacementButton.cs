@@ -1,4 +1,5 @@
-﻿using Board;
+﻿using System;
+using Board;
 using Game;
 using ItemPlacement;
 using UnityEngine;
@@ -6,6 +7,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 using System.Collections;
+using UnityEngine.Assertions;
 
 namespace UIScripts
 {
@@ -26,6 +28,11 @@ namespace UIScripts
         {
             _boardController = boardController;
             _gameStateController = gameStateController;
+        }
+
+        private void OnValidate()
+        {
+            Assert.IsNotNull(cooldownImage);
         }
 
         private void Start()

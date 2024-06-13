@@ -1,6 +1,8 @@
-﻿using Board;
+﻿using System;
+using Board;
 using Defence;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.Pool;
 using Zenject;
 
@@ -22,7 +24,14 @@ namespace ItemPlacement
 
         [Inject]
         private IDefenceItemFactory _defenceItemFactory;
-        
+
+        private void OnValidate()
+        {
+            Assert.IsNotNull(bastetPrefab);
+            Assert.IsNotNull(anubisPrefab);
+            Assert.IsNotNull(pharaohPrefab);
+        }
+
         private void Start()
         {
             SetPools();

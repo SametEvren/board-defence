@@ -1,5 +1,6 @@
 ﻿using Board;
 using System.Collections.Generic;
+using ModestTree;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,7 +18,12 @@ namespace UIScripts
         {
             _boardController = boardController;
         }
-    
+        
+        private void OnValidate()
+        {
+            Assert.IsNotNull(inventoryItems);
+        }
+        
         private void OnEnable()
         {
             _boardController.DefenceInventoryUpdated += UpdateDefenceInventoryUI;

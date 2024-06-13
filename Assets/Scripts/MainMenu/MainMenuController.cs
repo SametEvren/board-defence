@@ -1,5 +1,5 @@
-using System;
 using DG.Tweening;
+using ModestTree;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -12,6 +12,13 @@ namespace MainMenu
         [SerializeField] private Image gameLogo;
         [SerializeField] private Button playButton;
         [SerializeField] private Image playButtonBorder;
+        
+        private void OnValidate()
+        {
+            Assert.IsNotNull(gameLogo);
+            Assert.IsNotNull(playButton);
+            Assert.IsNotNull(playButtonBorder);
+        }
         
         private void Start()
         {

@@ -1,5 +1,6 @@
 ﻿using Board;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.UI;
 using Zenject;
 
@@ -7,18 +8,27 @@ namespace UIScripts
 {
     public class EnemyUI : MonoBehaviour
     {
-        public GameObject enemySpawnIndicator;
-        public Canvas worldSpaceCanvas;
+        [SerializeField] private GameObject enemySpawnIndicator;
+        [SerializeField] private Canvas worldSpaceCanvas;
         
-        public Sprite mummySprite;
-        public Sprite catSprite;
-        public Sprite birdSprite;
+        [SerializeField] private Sprite mummySprite;
+        [SerializeField] private Sprite catSprite;
+        [SerializeField] private Sprite birdSprite;
         
         private BoardController _boardController;
         [Inject]
         public void Construct(BoardController boardController)
         {
             _boardController = boardController;
+        }
+        
+        private void OnValidate()
+        {
+            Assert.IsNotNull(enemySpawnIndicator);
+            Assert.IsNotNull(worldSpaceCanvas);
+            Assert.IsNotNull(mummySprite);
+            Assert.IsNotNull(catSprite);
+            Assert.IsNotNull(birdSprite);
         }
 
         private void OnEnable()
