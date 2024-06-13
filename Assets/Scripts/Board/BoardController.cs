@@ -16,6 +16,7 @@ namespace Board
         public List<Vector2Int> possibleSpawnPositions { get; private set; }
         
         public event Action<DefenceItemType, int> DefenceInventoryUpdated;
+        public event Action<BoardSlot> LastBlocksSet;
 
         private void OnValidate()
         {
@@ -49,7 +50,12 @@ namespace Board
 
                 var isPlaceable = x < levelData.buildableArea.x && y < levelData.buildableArea.y;
                 
-                slot.InitializeSlot(new Vector2Int(x,y), isPlaceable);
+                slot.InitializeSlot(new Vector2Int(x, y), isPlaceable);
+
+                if (y == levelData.gridSize.y - 1)
+                {
+                    LastBlocksSet?.Invoke(slot);
+                }
             }
         }
 

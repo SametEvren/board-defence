@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Board;
+using UIScripts;
 using UnityEngine;
 using UnityEngine.Pool;
 using Zenject;
@@ -40,7 +41,6 @@ namespace Enemies
         {
             _boardController = boardController;
         }
-        
         
         private void Start()
         {
@@ -94,13 +94,33 @@ namespace Enemies
             {
                 while (enemy.amount > 0)
                 {
-                    GameObject spawnedEnemy = GetEnemy(enemy.enemyType);
-                    if (spawnedEnemy != null)
+                    Vector2Int spawnPosition = GetRandomSpawnPosition();
+                    BoardSlot slot = _boardController.BoardSlots[spawnPosition.x, spawnPosition.y];
+
+                    if (slot.TryGetComponent<EnemySpawnIndicator>(out var indicator))
                     {
-                        spawnedEnemy.GetComponent<Enemy>().InitializeEnemy(GetRandomSpawnPosition());
-                        enemy.amount--;
-                        EnemyInventoryUpdated?.Invoke(enemy.enemyType, enemy.amount);
+                        bool isSpawning = true;
+
+                        indicator.SetSprite(enemy.enemyType, () => {
+                            if (isSpawning)
+                            {
+                                GameObject spawnedEnemy = GetEnemy(enemy.enemyType);
+                                if (spawnedEnemy != null)
+                                {
+                                    spawnedEnemy.GetComponent<Enemy>().InitializeEnemy(spawnPosition);
+                                    enemy.amount--;
+                                    EnemyInventoryUpdated?.Invoke(enemy.enemyType, enemy.amount);
+                                    isSpawning = false;
+                                }
+                            }
+                        });
+
+                        while (isSpawning)
+                        {
+                            yield return null;
+                        }
                     }
+
                     yield return new WaitForSeconds(SpawnInterval);
                 }
             }
