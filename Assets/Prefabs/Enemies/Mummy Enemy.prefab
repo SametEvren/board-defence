@@ -3492,7 +3492,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyType: 1
   enemyData: {fileID: 11400000, guid: 2abf63406a9f1d34ba89d6d0da1c114b, type: 2}
-  disappearEffect: {fileID: 1618682437907764655}
+  circleDisappearEffect: {fileID: 1618682437907764655}
 --- !u!114 &8043936736434770054
 MonoBehaviour:
   m_ObjectHideFlags: 0

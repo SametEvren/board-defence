@@ -17,7 +17,7 @@ namespace Enemies
     {
         [SerializeField] protected EnemyType enemyType;
         [SerializeField] protected EnemyData enemyData;
-        [SerializeField] protected ParticleSystem circleDisappearEffet;
+        [SerializeField] protected ParticleSystem circleDisappearEffect;
         
         public SlotOccupantType OccupantType => SlotOccupantType.Enemy;
         public event Action<ISlotOccupier> OnRemovedFromSlot;
@@ -67,19 +67,19 @@ namespace Enemies
             _playerController.TakeDamage(enemyData.damage);
             _enemyMovement.KillMovementSequence();
             
-            circleDisappearEffet.transform.localScale = Vector3.one * 0.2f;
-            circleDisappearEffet.gameObject.SetActive(true);
-            circleDisappearEffet.Play();
+            circleDisappearEffect.transform.localScale = Vector3.one * 0.2f;
+            circleDisappearEffect.gameObject.SetActive(true);
+            circleDisappearEffect.Play();
             _particlePool.SpawnDisappearParticle(transform.position);
             
             _disappearSequence?.Kill();
             _disappearSequence = DOTween.Sequence()
                 .SetDelay(0.5f)
-                .Append(circleDisappearEffet.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f, 1))
+                .Append(circleDisappearEffect.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f, 1))
                 .Append(transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.Linear))
                 .OnComplete(() =>
                 {
-                    circleDisappearEffet.gameObject.SetActive(false);
+                    circleDisappearEffect.gameObject.SetActive(false);
                     OnRemovedFromSlot?.Invoke(this);
                     OnEnemyVanished?.Invoke(this);
                     _enemySpawnController.ReleaseEnemy(enemyType, gameObject);
