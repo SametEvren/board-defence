@@ -2341,6 +2341,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealthBar: {fileID: 309834378}
   defeatPanel: {fileID: 526693769}
+  successPanel: {fileID: 172655388}
 --- !u!1001 &1787413129
 PrefabInstance:
   m_ObjectHideFlags: 0

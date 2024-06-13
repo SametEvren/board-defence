@@ -27,8 +27,12 @@ namespace Enemies
         
         [SerializeField] private List<EnemyInventory> enemyInventory;
         [SerializeField] private ParticleSystem enemySpawnParticle;
+
+        public event Action AllEnemiesDefeated;
         
         private const float SpawnInterval = 5f;
+        private int _totalEnemies;
+        private int _defeatedEnemies;
 
         public event Action<EnemyType, int> EnemyInventoryUpdated;
         
@@ -56,6 +60,7 @@ namespace Enemies
             foreach (var enemyItem in _boardController.levelData.enemyInventories)
             {
                 enemyInventory.Add(new EnemyInventory(enemyItem.enemyType, enemyItem.amount));
+                _totalEnemies += enemyItem.amount;
                 EnemyInventoryUpdated?.Invoke(enemyItem.enemyType, enemyItem.amount);
             }
         }
@@ -80,11 +85,15 @@ namespace Enemies
         private void ActionOnGet(GameObject obj)
         {
             obj.gameObject.SetActive(true);
+            var enemy = obj.GetComponent<Enemy>();
+            enemy.OnEnemyVanished += HandleEnemyVanished;
         }
 
         private void OnPutBackInPool(GameObject obj)
         {
             obj.gameObject.SetActive(false);
+            var enemy = obj.GetComponent<Enemy>();
+            enemy.OnEnemyVanished -= HandleEnemyVanished;
         }
 
         private IEnumerator SpawnEnemiesInSequence()
@@ -147,6 +156,15 @@ namespace Enemies
                 return _boardController.possibleSpawnPositions[randomIndex];
             }
             return Vector2Int.zero;
+        }
+
+        private void HandleEnemyVanished(Enemy enemy)
+        {
+            _defeatedEnemies++;
+            if (_defeatedEnemies >= _totalEnemies)
+            {
+                AllEnemiesDefeated?.Invoke();
+            }
         }
 
         public GameObject GetEnemy(EnemyType enemyType)

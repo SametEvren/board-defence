@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Enemies;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Zenject;
@@ -12,17 +13,20 @@ namespace Player
         [SerializeField] private GameObject successPanel;
 
         private PlayerController _playerController;
+        private EnemySpawnController _enemySpawnController;
         
         [Inject]
-        public void Construct(PlayerController playerController)
+        public void Construct(PlayerController playerController, EnemySpawnController enemySpawnController)
         {
             _playerController = playerController;
+            _enemySpawnController = enemySpawnController;
         }
         
         private void Start()
         {
             _playerController.OnDamageTaken += UpdateHealthBar;
             _playerController.OnPlayerDestroyed += SetDefeatScreen;
+            _enemySpawnController.AllEnemiesDefeated += SetSuccessScreen;
         }
 
         private void SetSuccessScreen()
@@ -55,6 +59,7 @@ namespace Player
         {
             _playerController.OnDamageTaken -= UpdateHealthBar;
             _playerController.OnPlayerDestroyed -= SetDefeatScreen;
+            _enemySpawnController.AllEnemiesDefeated -= SetSuccessScreen;
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Linq;
 using Board;
 using Defence;
-using DG.Tweening;
 using Player;
 using UnityEngine;
 using Zenject;
@@ -18,6 +17,7 @@ namespace Enemies
         
         public SlotOccupantType OccupantType => SlotOccupantType.Enemy;
         public event Action<ISlotOccupier> OnRemovedFromSlot;
+        public event Action<Enemy> OnEnemyVanished;
 
         private Vector2Int _currentBoardCoordinates;
         
@@ -53,6 +53,9 @@ namespace Enemies
         private void DisappearAndGiveDamage()
         {
             _playerController.TakeDamage(enemyData.damage);
+            _enemyMovement.KillMovementSequence();
+            OnRemovedFromSlot?.Invoke(this);
+            OnEnemyVanished?.Invoke(this);
             _enemySpawnController.ReleaseEnemy(enemyType, gameObject);
         }
 
@@ -97,8 +100,9 @@ namespace Enemies
         private void OnDefeat()
         {
             _enemyMovement.KillMovementSequence();
-            _enemySpawnController.ReleaseEnemy(enemyType, gameObject);
             OnRemovedFromSlot?.Invoke(this);
+            OnEnemyVanished?.Invoke(this);
+            _enemySpawnController.ReleaseEnemy(enemyType, gameObject);
         }
     }
 }
