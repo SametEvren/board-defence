@@ -35,7 +35,8 @@ namespace Enemies
         private const float SpawnInterval = 5f;
         private int _totalEnemies;
         private int _defeatedEnemies;
-
+        public List<Vector2Int> possibleSpawnPositions { get; private set; }
+        
         public event Action<EnemyType, int> EnemyInventoryUpdated;
         
         [Inject]
@@ -64,6 +65,7 @@ namespace Enemies
         private void Start()
         {
             SetInventory();
+            CalculatePossibleSpawnPositions();
             SetPools();
             StartCoroutine(SpawnEnemiesInSequence());
         }
@@ -167,14 +169,27 @@ namespace Enemies
 
         private Vector2Int GetRandomSpawnPosition()
         {
-            if (_boardController.possibleSpawnPositions.Count > 0)
+            if (possibleSpawnPositions.Count > 0)
             {
-                int randomIndex = UnityEngine.Random.Range(0, _boardController.possibleSpawnPositions.Count);
-                return _boardController.possibleSpawnPositions[randomIndex];
+                int randomIndex = UnityEngine.Random.Range(0, possibleSpawnPositions.Count);
+                return possibleSpawnPositions[randomIndex];
             }
             return Vector2Int.zero;
         }
+ 
+        private void CalculatePossibleSpawnPositions()
+        {
+            var levelData = _gameController.LevelData;
 
+            possibleSpawnPositions = new List<Vector2Int>();
+
+            for (int x = 0; x < levelData.gridSize.x; x++)
+            {
+                int y = levelData.gridSize.y - 1;
+                possibleSpawnPositions.Add(new Vector2Int(x, y));
+            }
+        }
+        
         private void HandleEnemyVanished(Enemy enemy)
         {
             _defeatedEnemies++;

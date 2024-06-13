@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Game;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -14,7 +13,6 @@ namespace Board
         [SerializeField] private BoardSlot slotPrefab;
         
         public BoardSlot[,] BoardSlots { get; private set; }
-        public List<Vector2Int> possibleSpawnPositions { get; private set; }
         private GameController _gameController;
         
         [Inject]
@@ -31,7 +29,6 @@ namespace Board
         private void Start()
         {
             SpawnBoard();
-            CalculatePossibleSpawnPositions();
         }
 
         private void SpawnBoard()
@@ -60,19 +57,6 @@ namespace Board
                 {
                     LastBlocksSet?.Invoke(slot);
                 }
-            }
-        }
-        
-        private void CalculatePossibleSpawnPositions()
-        {
-            var levelData = _gameController.LevelData;
-
-            possibleSpawnPositions = new List<Vector2Int>();
-
-            for (int x = 0; x < levelData.gridSize.x; x++)
-            {
-                int y = levelData.gridSize.y - 1;
-                possibleSpawnPositions.Add(new Vector2Int(x, y));
             }
         }
     }

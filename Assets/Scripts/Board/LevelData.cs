@@ -21,47 +21,11 @@ namespace Board
     }
 
     [Serializable]
-    public struct DefenceItemInventory : IEquatable<DefenceItemInventory>
+    public struct DefenceItemInventory
     {
         public DefenceItemType defenceItemType;
         public int amount;
-
-        public bool Equals(DefenceItemInventory other)
-        {
-            return this.defenceItemType == other.defenceItemType && this.amount == other.amount;
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is DefenceItemInventory)
-            {
-                return Equals((DefenceItemInventory)obj);
-            }
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int hash = 17;
-                hash = hash * 23 + defenceItemType.GetHashCode();
-                hash = hash * 23 + amount.GetHashCode();
-                return hash;
-            }
-        }
-
-        public static bool operator ==(DefenceItemInventory left, DefenceItemInventory right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(DefenceItemInventory left, DefenceItemInventory right)
-        {
-            return !(left == right);
-        }
     }
-
 
     public enum EnemyType
     {
