@@ -1,5 +1,6 @@
 ﻿using Board;
 using System.Collections.Generic;
+using ItemPlacement;
 using ModestTree;
 using TMPro;
 using UnityEngine;
@@ -11,12 +12,12 @@ namespace UIScripts
     public class InventoryUI : MonoBehaviour
     {
         [SerializeField] private List<InventoryItem> inventoryItems;
-        private BoardController _boardController;
+        private ItemPlacementController _itemPlacementController;
 
         [Inject]
-        public void Construct(BoardController boardController)
+        public void Construct(ItemPlacementController placementController)
         {
-            _boardController = boardController;
+            _itemPlacementController = placementController;
         }
         
         private void OnValidate()
@@ -26,12 +27,12 @@ namespace UIScripts
         
         private void OnEnable()
         {
-            _boardController.DefenceInventoryUpdated += UpdateDefenceInventoryUI;
+            _itemPlacementController.DefenceInventoryUpdated += UpdateDefenceInventoryUI;
         }
 
         private void OnDisable()
         {
-            _boardController.DefenceInventoryUpdated -= UpdateDefenceInventoryUI;
+            _itemPlacementController.DefenceInventoryUpdated -= UpdateDefenceInventoryUI;
         }
 
         private void UpdateDefenceInventoryUI(DefenceItemType itemType, int amount)

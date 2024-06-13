@@ -4,15 +4,19 @@ using System.Linq;
 using Audio;
 using Board;
 using Defence;
+using Game;
 using UIScripts;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Utility;
 using Zenject;
 
 namespace ItemPlacement
 {
     public class ItemPlacementController : MonoBehaviour
     {
+        public event Action<DefenceItemType, int> DefenceInventoryUpdated;
+        
         [SerializeField] private Camera playerCamera;
         [SerializeField] private List<DefenceItem> itemPrefabs;
         [SerializeField] private ParticleSystem placementParticle;
@@ -25,14 +29,22 @@ namespace ItemPlacement
         private BoardController _boardController;
         private DefenceItemPool _defenceItemPool;
         private AudioController _audioController;
+        private GameController _gameController;
         private ItemPlacementButton _currentButton;
+        [SerializeField] private SerializedDictionary<DefenceItemType, int> defenceInventory;
+
 
         [Inject]
-        public void Construct(BoardController boardController, DefenceItemPool defenceItemPool, AudioController audioController)
+        public void Construct(
+            BoardController boardController, 
+            DefenceItemPool defenceItemPool, 
+            AudioController audioController,
+            GameController gameController)
         {
             _boardController = boardController;
             _defenceItemPool = defenceItemPool;
             _audioController = audioController;
+            _gameController = gameController;
         }
         
         private void OnValidate()
@@ -41,6 +53,11 @@ namespace ItemPlacement
             Assert.IsNotNull(itemPrefabs);
             Assert.IsTrue(itemPrefabs.Count == Enum.GetValues(typeof(DefenceItemType)).Length - 1);
             Assert.IsNotNull(placementParticle);
+        }
+
+        private void Start()
+        {
+            SetInventory();
         }
 
         private void Update()
@@ -77,6 +94,29 @@ namespace ItemPlacement
             }
         }
 
+        private void SetInventory()
+        {
+            defenceInventory.Clear();
+            foreach (var defenceItem in _gameController.LevelData.defenceItemInventories)
+            {
+                defenceInventory.Add(defenceItem.defenceItemType, defenceItem.amount);
+                DefenceInventoryUpdated?.Invoke(defenceItem.defenceItemType, defenceItem.amount);
+            }
+        }
+        
+        
+        public void UpdateInventory(DefenceItemType itemType)
+        {
+            var newValue = defenceInventory[itemType] - 1;
+            defenceInventory[itemType] = newValue;
+            DefenceInventoryUpdated?.Invoke(itemType, newValue);
+        }
+
+        public bool CheckAvailable(DefenceItemType itemType)
+        {
+            return defenceInventory[itemType] > 0;
+        }
+        
         public void StartPlacing(DefenceItemType defenceItemType, ItemPlacementButton button)
         {
             if (CurrentlyPlacing && _currentType == defenceItemType) return;
@@ -104,7 +144,7 @@ namespace ItemPlacement
             targetedSlot.OccupySlot(_currentItem);
             _currentItem.SetAffectedSlots(_potentialAffectedArea);
 
-            _boardController.UpdateInventory(_currentType);
+            UpdateInventory(_currentType);
 
             if (_currentType == DefenceItemType.Pharaoh)
             {

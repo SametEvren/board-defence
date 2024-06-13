@@ -1,44 +1,42 @@
 using System;
 using System.Collections.Generic;
+using Game;
 using UnityEngine;
 using UnityEngine.Assertions;
-using Utility;
+using Zenject;
 
 namespace Board
 {
     public class BoardController : MonoBehaviour
     {
-        [SerializeField] private LevelProgression levelProgression;
-        public LevelData levelData;
+        public event Action<BoardSlot> LastBlocksSet;
+
         [SerializeField] private BoardSlot slotPrefab;
-        [SerializeField] private SerializedDictionary<DefenceItemType, int> defenceInventory;
         
         public BoardSlot[,] BoardSlots { get; private set; }
         public List<Vector2Int> possibleSpawnPositions { get; private set; }
+        private GameController _gameController;
         
-        public event Action<DefenceItemType, int> DefenceInventoryUpdated;
-        public event Action<BoardSlot> LastBlocksSet;
+        [Inject]
+        public void Construct(GameController gameController)
+        {
+            _gameController = gameController;
+        }
 
         private void OnValidate()
         {
-            Assert.IsNotNull(levelProgression);
-            Assert.IsNotNull(levelData);
             Assert.IsNotNull(slotPrefab);
         }
 
         private void Start()
         {
-            var currentLevel = PlayerPrefs.GetInt("Level", 0);
-            var levelIndex = currentLevel % levelProgression.levelDataList.Count;
-            levelData = levelProgression.levelDataList[levelIndex];
-            
-            SpawnLevel();
-            SetInventory();
+            SpawnBoard();
             CalculatePossibleSpawnPositions();
         }
 
-        private void SpawnLevel()
+        private void SpawnBoard()
         {
+            var levelData = _gameController.LevelData;
             GameObject parent = new GameObject("Level Stones");
 
             var offsetX = (levelData.gridSize.x - 1) / 2f;
@@ -64,19 +62,11 @@ namespace Board
                 }
             }
         }
-
-        private void SetInventory()
-        {
-            defenceInventory.Clear();
-            foreach (var defenceItem in levelData.defenceItemInventories)
-            {
-                defenceInventory.Add(defenceItem.defenceItemType, defenceItem.amount);
-                DefenceInventoryUpdated?.Invoke(defenceItem.defenceItemType, defenceItem.amount);
-            }
-        }
-
+        
         private void CalculatePossibleSpawnPositions()
         {
+            var levelData = _gameController.LevelData;
+
             possibleSpawnPositions = new List<Vector2Int>();
 
             for (int x = 0; x < levelData.gridSize.x; x++)
@@ -84,18 +74,6 @@ namespace Board
                 int y = levelData.gridSize.y - 1;
                 possibleSpawnPositions.Add(new Vector2Int(x, y));
             }
-        }
-
-        public void UpdateInventory(DefenceItemType itemType)
-        {
-            var newValue = defenceInventory[itemType] - 1;
-            defenceInventory[itemType] = newValue;
-            DefenceInventoryUpdated?.Invoke(itemType, newValue);
-        }
-
-        public bool CheckAvailable(DefenceItemType itemType)
-        {
-            return defenceInventory[itemType] > 0;
         }
     }
 }

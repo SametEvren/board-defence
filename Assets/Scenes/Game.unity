@@ -897,6 +897,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1052048876}
   - {fileID: 660859500}
   - {fileID: 615568080}
   - {fileID: 854370608}
@@ -1205,6 +1206,9 @@ MonoBehaviour:
   - {fileID: -8564848620536793677, guid: bcca729e4f84d4a4aa72bef402555d31, type: 3}
   - {fileID: 3340370696378769986, guid: 6062d32be4127e141bf306dddd34f291, type: 3}
   placementParticle: {fileID: 591464312}
+  defenceInventory:
+    keys: 
+    values: 
 --- !u!1 &660859498
 GameObject:
   m_ObjectHideFlags: 0
@@ -1234,12 +1238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ce85ad4ff0f6aa4b873b9161d6f9ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelProgression: {fileID: 11400000, guid: 729cd9a6635646e4888edf607f07efa3, type: 2}
-  levelData: {fileID: 11400000, guid: 21f67686dbc22664da2f2d708acfc1ac, type: 2}
   slotPrefab: {fileID: 8964114411521422458, guid: 6565f4ac5718cae48b2f93f1a041cd05, type: 3}
-  defenceInventory:
-    keys: 
-    values: 
 --- !u!4 &660859500
 Transform:
   m_ObjectHideFlags: 0
@@ -1720,6 +1719,51 @@ MonoBehaviour:
   - itemType: 3
     amountText: {fileID: 9058579567444905188}
     button: {fileID: 9058579567444905193}
+--- !u!1 &1052048875
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1052048876}
+  - component: {fileID: 1052048877}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1052048876
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052048875}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 569758311}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1052048877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052048875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a3d2b69a1234dae9e9db1ff1534e041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  levelProgression: {fileID: 11400000, guid: 729cd9a6635646e4888edf607f07efa3, type: 2}
 --- !u!114 &1092692075 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 790106056709927873, guid: ffdd2d66723bb34439beca1437857beb, type: 3}

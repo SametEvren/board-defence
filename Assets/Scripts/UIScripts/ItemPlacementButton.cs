@@ -20,13 +20,13 @@ namespace UIScripts
         [SerializeField] private float cooldownDuration = 5f;
         
         private bool _isOnCooldown;
-        private BoardController _boardController;
+        private ItemPlacementController _itemPlacementController;
         private GameStateController _gameStateController;
 
         [Inject]
-        public void Construct(BoardController boardController, GameStateController gameStateController)
+        public void Construct(ItemPlacementController placementController, GameStateController gameStateController)
         {
-            _boardController = boardController;
+            _itemPlacementController = placementController;
             _gameStateController = gameStateController;
         }
 
@@ -49,7 +49,7 @@ namespace UIScripts
         {
             if (_isOnCooldown) return;
 
-            if (_boardController.CheckAvailable(itemType) && _gameStateController.CurrentState == GameState.Playing)
+            if (_itemPlacementController.CheckAvailable(itemType) && _gameStateController.CurrentState == GameState.Playing)
             {
                 itemPlacementController.StartPlacing(itemType, this);
             }

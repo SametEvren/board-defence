@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Board;
 using DG.Tweening;
+using Game;
 using Particles;
 using UIScripts;
 using UnityEngine;
@@ -41,12 +42,14 @@ namespace Enemies
         private IEnemyFactory _enemyFactory;
         
         private BoardController _boardController;
+        private GameController _gameController;
         private ParticlePool _particlePool;
         
         [Inject]
-        public void Construct(BoardController boardController, ParticlePool particlePool)
+        public void Construct(BoardController boardController, GameController gameController, ParticlePool particlePool)
         {
             _boardController = boardController;
+            _gameController = gameController;
             _particlePool = particlePool;
         }
         
@@ -68,7 +71,7 @@ namespace Enemies
         private void SetInventory()
         {
             enemyInventory.Clear();
-            foreach (var enemyItem in _boardController.levelData.enemyInventories)
+            foreach (var enemyItem in _gameController.LevelData.enemyInventories)
             {
                 enemyInventory.Add(new EnemyInventory(enemyItem.enemyType, enemyItem.amount));
                 _totalEnemies += enemyItem.amount;

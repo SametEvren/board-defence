@@ -25,6 +25,8 @@ namespace Dependency_Injection
             Container.Bind<GameStateController>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<ParticlePool>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<AudioController>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.Bind<ItemPlacementController>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.Bind<GameController>().FromComponentInHierarchy().AsSingle().NonLazy();
         }
     }
 }
