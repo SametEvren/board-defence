@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Audio;
 using Board;
 using Defence;
 using UnityEngine;
@@ -20,19 +21,22 @@ namespace ItemPlacement
 
         private BoardController _boardController;
         private DefenceItemPool _defenceItemPool;
+        private AudioController _audioController;
+
         [Inject]
-        public void Construct(BoardController boardController, DefenceItemPool defenceItemPool)
+        public void Construct(BoardController boardController, DefenceItemPool defenceItemPool, AudioController audioController)
         {
             _boardController = boardController;
             _defenceItemPool = defenceItemPool;
+            _audioController = audioController;
         }
 
         private void Update()
         {
-            if(!CurrentlyPlacing) return;
+            if (!CurrentlyPlacing) return;
 
             var onValidTarget = MouseOnValidTarget(out var targetedSlot);
-            
+
             var wasActive = _currentItem.isActiveAndEnabled;
             _currentItem.gameObject.SetActive(onValidTarget);
 
@@ -54,7 +58,7 @@ namespace ItemPlacement
 
             if (Input.GetMouseButtonUp(0))
             {
-                if(onValidTarget)
+                if (onValidTarget)
                     PlaceItemDown(targetedSlot);
                 else
                     CancelPlacement();
@@ -63,10 +67,10 @@ namespace ItemPlacement
 
         public void StartPlacing(DefenceItemType defenceItemType)
         {
-            if(CurrentlyPlacing && _currentType == defenceItemType) return;
+            if (CurrentlyPlacing && _currentType == defenceItemType) return;
 
-            if(CurrentlyPlacing) CancelPlacement();
-            
+            if (CurrentlyPlacing) CancelPlacement();
+
             _currentType = defenceItemType;
             _currentItem = SpawnPlacementItem(defenceItemType);
 
@@ -76,18 +80,25 @@ namespace ItemPlacement
                 CancelPlacement();
             }
         }
-        
+
         private void PlaceItemDown(BoardSlot targetedSlot)
         {
             _currentItem.transform.SetParent(targetedSlot.transform);
-            
+
             placementParticle.transform.position = _currentItem.transform.position;
             placementParticle.Play();
-            
+
             targetedSlot.OccupySlot(_currentItem);
             _currentItem.SetAffectedSlots(_potentialAffectedArea);
-            
+
             _boardController.UpdateInventory(_currentType);
+
+            // Eğer itemin tipi Pharaoh ise, the first pharaoh müziğini çal
+            if (_currentType == DefenceItemType.Pharaoh)
+            {
+                _audioController.PlayFirstPharaoh();
+            }
+
             _currentItem = null;
             _currentType = DefenceItemType.None;
             _currentCoordinates = Vector2Int.one * -1;
@@ -126,7 +137,7 @@ namespace ItemPlacement
         {
             var prefab = FetchItemFromPrefabs(defenceItemType);
             if (prefab == null) return null;
-        
+
             var item = _defenceItemPool.GetDefenceItem(defenceItemType);
             item.transform.position = Vector3.zero;
             item.transform.rotation = Quaternion.identity;
