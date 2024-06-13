@@ -1,9 +1,9 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using Board;
 using UnityEngine;
 using UnityEngine.Pool;
-using Utility;
 using Zenject;
 
 namespace Enemies
@@ -26,6 +26,8 @@ namespace Enemies
         
         [SerializeField] private List<EnemyInventory> enemyInventory;
 
+        private const float SpawnInterval = 5f;
+
         public event Action<EnemyType, int> EnemyInventoryUpdated;
         
         [Inject]
@@ -44,6 +46,7 @@ namespace Enemies
         {
             SetInventory();
             SetPools();
+            StartCoroutine(SpawnEnemiesInSequence());
         }
 
         private void SetInventory()
@@ -83,25 +86,36 @@ namespace Enemies
             obj.gameObject.SetActive(false);
         }
 
-        private void Update()
+        private IEnumerator SpawnEnemiesInSequence()
         {
-            if (Input.GetKeyDown(KeyCode.S))
+            yield return new WaitForEndOfFrame();
+
+            foreach (var enemy in enemyInventory)
             {
-                var enemy = _mummyEnemyPool.Get();
-                enemy.GetComponent<Enemy>().InitializeEnemy(new Vector2Int(3,7));
-            }
-            if (Input.GetKeyDown(KeyCode.A))
-            {
-                var enemy = _catEnemyPool.Get();
-                enemy.GetComponent<Enemy>().InitializeEnemy(new Vector2Int(2,7));
-            }
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                var enemy = _birdEnemyPool.Get();
-                enemy.GetComponent<Enemy>().InitializeEnemy(new Vector2Int(1,7));
+                while (enemy.amount > 0)
+                {
+                    GameObject spawnedEnemy = GetEnemy(enemy.enemyType);
+                    if (spawnedEnemy != null)
+                    {
+                        spawnedEnemy.GetComponent<Enemy>().InitializeEnemy(GetRandomSpawnPosition());
+                        enemy.amount--;
+                        EnemyInventoryUpdated?.Invoke(enemy.enemyType, enemy.amount);
+                    }
+                    yield return new WaitForSeconds(SpawnInterval);
+                }
             }
         }
-        
+
+        private Vector2Int GetRandomSpawnPosition()
+        {
+            if (_boardController.possibleSpawnPositions.Count > 0)
+            {
+                int randomIndex = UnityEngine.Random.Range(0, _boardController.possibleSpawnPositions.Count);
+                return _boardController.possibleSpawnPositions[randomIndex];
+            }
+            return Vector2Int.zero;
+        }
+
         public GameObject GetEnemy(EnemyType enemyType)
         {
             switch (enemyType)

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Assertions;
 using Utility;
@@ -12,6 +13,7 @@ namespace Board
         [SerializeField] private SerializedDictionary<DefenceItemType, int> defenceInventory;
         
         public BoardSlot[,] BoardSlots { get; private set; }
+        public List<Vector2Int> possibleSpawnPositions { get; private set; }
         
         public event Action<DefenceItemType, int> DefenceInventoryUpdated;
 
@@ -25,6 +27,7 @@ namespace Board
         {
             SpawnLevel();
             SetInventory();
+            CalculatePossibleSpawnPositions();
         }
 
         private void SpawnLevel()
@@ -49,7 +52,7 @@ namespace Board
                 slot.InitializeSlot(new Vector2Int(x,y), isPlaceable);
             }
         }
-        
+
         private void SetInventory()
         {
             defenceInventory.Clear();
@@ -57,6 +60,17 @@ namespace Board
             {
                 defenceInventory.Add(defenceItem.defenceItemType, defenceItem.amount);
                 DefenceInventoryUpdated?.Invoke(defenceItem.defenceItemType, defenceItem.amount);
+            }
+        }
+
+        private void CalculatePossibleSpawnPositions()
+        {
+            possibleSpawnPositions = new List<Vector2Int>();
+
+            for (int x = 0; x < levelData.gridSize.x; x++)
+            {
+                int y = levelData.gridSize.y - 1;
+                possibleSpawnPositions.Add(new Vector2Int(x, y));
             }
         }
 
