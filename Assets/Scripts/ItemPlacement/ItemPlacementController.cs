@@ -3,6 +3,7 @@ using System.Linq;
 using Audio;
 using Board;
 using Defence;
+using UIScripts;
 using UnityEngine;
 using Zenject;
 
@@ -22,6 +23,7 @@ namespace ItemPlacement
         private BoardController _boardController;
         private DefenceItemPool _defenceItemPool;
         private AudioController _audioController;
+        private ItemPlacementButton _currentButton;
 
         [Inject]
         public void Construct(BoardController boardController, DefenceItemPool defenceItemPool, AudioController audioController)
@@ -65,13 +67,14 @@ namespace ItemPlacement
             }
         }
 
-        public void StartPlacing(DefenceItemType defenceItemType)
+        public void StartPlacing(DefenceItemType defenceItemType, ItemPlacementButton button)
         {
             if (CurrentlyPlacing && _currentType == defenceItemType) return;
 
             if (CurrentlyPlacing) CancelPlacement();
 
             _currentType = defenceItemType;
+            _currentButton = button;
             _currentItem = SpawnPlacementItem(defenceItemType);
 
             if (_currentItem == null)
@@ -93,7 +96,6 @@ namespace ItemPlacement
 
             _boardController.UpdateInventory(_currentType);
 
-            // Eğer itemin tipi Pharaoh ise, the first pharaoh müziğini çal
             if (_currentType == DefenceItemType.Pharaoh)
             {
                 _audioController.PlayFirstPharaoh();
@@ -105,6 +107,9 @@ namespace ItemPlacement
             _potentialAffectedArea.Clear();
 
             PlacementHighlighter.ResetHighLights();
+
+            _currentButton?.StartCooldown();
+            _currentButton = null;
         }
 
         private bool MouseOnValidTarget(out BoardSlot boardSlot)

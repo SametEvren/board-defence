@@ -3019,6 +3019,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6483520991480963913, guid: 015b564a7ca43824c9e815ba8b482d0d, type: 3}
+      propertyPath: cooldownDuration
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6483520991480963913, guid: 015b564a7ca43824c9e815ba8b482d0d, type: 3}
       propertyPath: itemPlacementController
       value: 
       objectReference: {fileID: 615568081}
@@ -3134,6 +3138,10 @@ PrefabInstance:
     - target: {fileID: 1059484555845148836, guid: ffdd2d66723bb34439beca1437857beb, type: 3}
       propertyPath: itemType
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1059484555845148836, guid: ffdd2d66723bb34439beca1437857beb, type: 3}
+      propertyPath: cooldownDuration
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1059484555845148836, guid: ffdd2d66723bb34439beca1437857beb, type: 3}
       propertyPath: itemPlacementController
@@ -3335,6 +3343,10 @@ PrefabInstance:
     - target: {fileID: 3475422977110453721, guid: 779ec4d716d21e249bc4b6a4f72f8781, type: 3}
       propertyPath: itemType
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3475422977110453721, guid: 779ec4d716d21e249bc4b6a4f72f8781, type: 3}
+      propertyPath: cooldownDuration
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3475422977110453721, guid: 779ec4d716d21e249bc4b6a4f72f8781, type: 3}
       propertyPath: itemPlacementController
