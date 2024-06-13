@@ -2,6 +2,7 @@
 using System.Linq;
 using Board;
 using DG.Tweening;
+using Player;
 using UnityEngine;
 using Zenject;
 
@@ -11,13 +12,16 @@ namespace Enemies
     public sealed class EnemyMovement : MonoBehaviour
     {
         public event Action<BoardSlot> OnStoppedByEnemy;
+        public event Action OnReachedPlayer;
             
         private BoardController _boardController;
+        private PlayerController _playerController;
         
         [Inject]
-        public void Construct(BoardController boardController)
+        public void Construct(BoardController boardController, PlayerController playerController)
         {
             _boardController = boardController;
+            _playerController = playerController;
         }
 
         private Sequence _movementSequence;
@@ -58,7 +62,7 @@ namespace Enemies
 
             if (nextCoordinates.y >= gridSize.y || nextCoordinates.y < 0)
             {
-                //TODO: HandleExitGrid();
+                OnReachedPlayer?.Invoke();
                 return;
             }
 

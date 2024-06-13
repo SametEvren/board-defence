@@ -3,6 +3,7 @@ using System.Linq;
 using Board;
 using Defence;
 using DG.Tweening;
+using Player;
 using UnityEngine;
 using Zenject;
 
@@ -22,22 +23,37 @@ namespace Enemies
         
         private EnemyMovement _enemyMovement;
         private EnemyAttack _enemyAttack;
-
+        private float _currentHealth;
+        
         private BoardController _boardController;
         private EnemySpawnController _enemySpawnController;
-        private float _currentHealth;
+        private PlayerController _playerController;
 
+        [Inject]
+        public void Construct(BoardController boardController, 
+            EnemySpawnController enemySpawnController, 
+            PlayerController playerController)
+        {
+            _boardController = boardController;
+            _enemySpawnController = enemySpawnController;
+            _playerController = playerController;
+        }
+        
         private void Awake()
         {
             _enemyMovement = GetComponent<EnemyMovement>();
             _enemyAttack = GetComponent<EnemyAttack>();
         }
 
-        [Inject]
-        public void Construct(BoardController boardController, EnemySpawnController enemySpawnController)
+        private void Start()
         {
-            _boardController = boardController;
-            _enemySpawnController = enemySpawnController;
+            _enemyMovement.OnReachedPlayer += DisappearAndGiveDamage;
+        }
+
+        private void DisappearAndGiveDamage()
+        {
+            _playerController.TakeDamage(enemyData.damage);
+            _enemySpawnController.ReleaseEnemy(enemyType, gameObject);
         }
 
         public void InitializeEnemy(Vector2Int coordinates)
