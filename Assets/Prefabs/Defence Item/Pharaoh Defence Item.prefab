@@ -208,8 +208,8 @@ MonoBehaviour:
   enemiesInRange: []
   affectedBoardSlots: []
   damageDelay: 0.3
-  _particleSystem: {fileID: 5106762980501777355}
-  _particleScaleFactor: 0.5
+  attackParticle: {fileID: 5106762980501777355}
+  particleScaleFactor: 0.5
 --- !u!1001 &6840255845628073158
 PrefabInstance:
   m_ObjectHideFlags: 0
