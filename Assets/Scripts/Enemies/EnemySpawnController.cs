@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Board;
-using Defence;
 using UnityEngine;
 using UnityEngine.Pool;
+using Utility;
 using Zenject;
 
 namespace Enemies
@@ -24,14 +24,36 @@ namespace Enemies
         [SerializeField] private GameObject birdPrefab;
         private const int BirdCapacity = 10;
         
+        [SerializeField] private List<EnemyInventory> enemyInventory;
+
+        public event Action<EnemyType, int> EnemyInventoryUpdated;
+        
         [Inject]
         private IEnemyFactory _enemyFactory;
-
-        public List<GameObject> enemyList;
+        
+        private BoardController _boardController;
+        
+        [Inject]
+        public void Construct(BoardController boardController)
+        {
+            _boardController = boardController;
+        }
+        
         
         private void Start()
         {
+            SetInventory();
             SetPools();
+        }
+
+        private void SetInventory()
+        {
+            enemyInventory.Clear();
+            foreach (var enemyItem in _boardController.levelData.enemyInventories)
+            {
+                enemyInventory.Add(new EnemyInventory(enemyItem.enemyType, enemyItem.amount));
+                EnemyInventoryUpdated?.Invoke(enemyItem.enemyType, enemyItem.amount);
+            }
         }
 
         private void SetPools()
@@ -113,6 +135,19 @@ namespace Enemies
                     _catEnemyPool.Release(item);
                     break;
             }
+        }
+    }
+
+    [Serializable]
+    public class EnemyInventory
+    {
+        public EnemyType enemyType;
+        public int amount;
+
+        public EnemyInventory(EnemyType _enemyType, int _amount)
+        {
+            enemyType = _enemyType;
+            amount = _amount;
         }
     }
 }

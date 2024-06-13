@@ -13,7 +13,7 @@ namespace Board
         
         public BoardSlot[,] BoardSlots { get; private set; }
         
-        public event Action<DefenceItemType, int> InventoryUpdated;
+        public event Action<DefenceItemType, int> DefenceInventoryUpdated;
 
         private void OnValidate()
         {
@@ -56,7 +56,7 @@ namespace Board
             foreach (var defenceItem in levelData.defenceItemInventories)
             {
                 defenceInventory.Add(defenceItem.defenceItemType, defenceItem.amount);
-                InventoryUpdated?.Invoke(defenceItem.defenceItemType, defenceItem.amount);
+                DefenceInventoryUpdated?.Invoke(defenceItem.defenceItemType, defenceItem.amount);
             }
         }
 
@@ -64,7 +64,7 @@ namespace Board
         {
             var newValue = defenceInventory[itemType] - 1;
             defenceInventory[itemType] = newValue;
-            InventoryUpdated?.Invoke(itemType, newValue);
+            DefenceInventoryUpdated?.Invoke(itemType, newValue);
         }
 
         public bool CheckAvailable(DefenceItemType itemType)

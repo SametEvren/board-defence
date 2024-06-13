@@ -20,15 +20,15 @@ namespace UIScripts
     
         private void OnEnable()
         {
-            _boardController.InventoryUpdated += UpdateInventoryUI;
+            _boardController.DefenceInventoryUpdated += UpdateDefenceInventoryUI;
         }
 
         private void OnDisable()
         {
-            _boardController.InventoryUpdated -= UpdateInventoryUI;
+            _boardController.DefenceInventoryUpdated -= UpdateDefenceInventoryUI;
         }
 
-        private void UpdateInventoryUI(DefenceItemType itemType, int amount)
+        private void UpdateDefenceInventoryUI(DefenceItemType itemType, int amount)
         {
             var inventoryItem = FindInventoryItem(itemType);
             if (inventoryItem != null)

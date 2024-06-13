@@ -28,3 +28,5 @@ MonoBehaviour:
     amount: 1
   - enemyType: 2
     amount: 1
+  - enemyType: 1
+    amount: 1
