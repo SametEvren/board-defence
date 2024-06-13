@@ -1,4 +1,5 @@
 ﻿using Board;
+using Game;
 using ItemPlacement;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -13,15 +14,18 @@ namespace UIScripts
         [SerializeField] private ItemPlacementController itemPlacementController;
         
         private BoardController _boardController;
+        private GameStateController _gameStateController;
+        
         [Inject]
-        public void Construct(BoardController boardController)
+        public void Construct(BoardController boardController, GameStateController gameStateController)
         {
             _boardController = boardController;
+            _gameStateController = gameStateController;
         }
         
         private void HandleButtonClicked()
         {
-            if(_boardController.CheckAvailable(itemType))
+            if(_boardController.CheckAvailable(itemType) && _gameStateController.CurrentState == GameState.Playing)
                 itemPlacementController.StartPlacing(itemType);
         }
 

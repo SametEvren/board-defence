@@ -5,8 +5,8 @@ namespace Player
 {
     public class PlayerController : MonoBehaviour
     {
-        public float _playerHealth = 100;
-        public float _fullHealth;
+        private float _playerHealth = 20;
+        private float _fullHealth;
         public event Action<float,float> OnDamageTaken;
         public event Action OnPlayerDestroyed;
         private void Awake()

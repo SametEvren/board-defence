@@ -1,5 +1,8 @@
+using System;
+using Game;
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 namespace Game_Speed
 {
@@ -17,16 +20,54 @@ namespace Game_Speed
 
         private bool _gamePaused;
         private bool _gameSpeedUp;
+        
+        private GameStateController _gameStateController;
+        
+        [Inject]
+        public void Construct(GameStateController gameStateController)
+        {
+            _gameStateController = gameStateController;
+            _gameStateController.OnGameStateChanged += HandleGameStateChanged;
+        }
+
+        private void Start()
+        {
+            Time.timeScale = 1;
+        }
+
+        private void OnDestroy()
+        {
+            _gameStateController.OnGameStateChanged -= HandleGameStateChanged;
+        }
+
+        private void HandleGameStateChanged(GameState newState)
+        {
+            switch (newState)
+            {
+                case GameState.Playing:
+                    Continue();
+                    break;
+                case GameState.Paused:
+                    Pause();
+                    break;
+                case GameState.Victory:
+                case GameState.Defeat:
+                    Pause();
+                    pauseControlImage.gameObject.SetActive(false);
+                    speedControlImage.gameObject.SetActive(false);
+                    break;
+            }
+        }
 
         public void ControlPause()
         {
             if (_gamePaused)
             {
-                Continue();
+                _gameStateController.SetGameState(GameState.Playing);
             }
             else
             {
-                Pause();
+                _gameStateController.SetGameState(GameState.Paused);
             }
         }
 
@@ -45,7 +86,7 @@ namespace Game_Speed
         private void Continue()
         {
             _gamePaused = false;
-            Time.timeScale = _previousTimeScale;
+            Time.timeScale = _previousTimeScale > 0 ? _previousTimeScale : 1f;
             UpdatePauseControl(pauseSprite);
         }
         
@@ -60,14 +101,20 @@ namespace Game_Speed
         private void NormalSpeed()
         {
             _gameSpeedUp = false;
-            Time.timeScale = 1f;
+            if (_gameStateController.CurrentState == GameState.Playing)
+            {
+                Time.timeScale = 1f;
+            }
             UpdateSpeedControl(normalSpeedSprite);
         }
 
         private void FastForward()
         {
             _gameSpeedUp = true;
-            Time.timeScale = 2f;
+            if (_gameStateController.CurrentState == GameState.Playing)
+            {
+                Time.timeScale = 2f;
+            }
             UpdateSpeedControl(fastForwardSprite);
         }
 

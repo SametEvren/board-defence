@@ -1,6 +1,7 @@
 using Board;
 using Defence;
 using Enemies;
+using Game;
 using ItemPlacement;
 using Player;
 using UIScripts;
@@ -19,6 +20,7 @@ namespace Dependency_Injection
             Container.Bind<EnemySpawnController>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<PlayerController>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<DamageUI>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.Bind<GameStateController>().FromComponentInHierarchy().AsSingle().NonLazy();
         }
     }
 }
