@@ -8,6 +8,7 @@ namespace Board
 {
     public class BoardController : MonoBehaviour
     {
+        [SerializeField] private LevelProgression levelProgression;
         public LevelData levelData;
         [SerializeField] private BoardSlot slotPrefab;
         [SerializeField] private SerializedDictionary<DefenceItemType, int> defenceInventory;
@@ -20,12 +21,17 @@ namespace Board
 
         private void OnValidate()
         {
+            Assert.IsNotNull(levelProgression);
             Assert.IsNotNull(levelData);
             Assert.IsNotNull(slotPrefab);
         }
 
         private void Start()
         {
+            var currentLevel = PlayerPrefs.GetInt("Level", 0);
+            var levelIndex = currentLevel % levelProgression.levelDataList.Count;
+            levelData = levelProgression.levelDataList[levelIndex];
+            
             SpawnLevel();
             SetInventory();
             CalculatePossibleSpawnPositions();

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4084b12e841c9ca4881b0fb038ec3b8a, type: 3}
-  m_Name: Level 1
+  m_Name: Level 2
   m_EditorClassIdentifier: 
   gridSize: {x: 4, y: 8}
   buildableArea: {x: 4, y: 4}
@@ -18,13 +18,13 @@ MonoBehaviour:
   - defenceItemType: 2
     amount: 3
   - defenceItemType: 1
-    amount: 2
+    amount: 4
   - defenceItemType: 3
-    amount: 1
+    amount: 2
   enemyInventories:
   - enemyType: 3
-    amount: 3
+    amount: 5
   - enemyType: 1
-    amount: 1
+    amount: 2
   - enemyType: 2
-    amount: 1
+    amount: 3

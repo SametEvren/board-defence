@@ -9,6 +9,7 @@ namespace Player
     {
         [SerializeField] private Image playerHealthBar;
         [SerializeField] private GameObject defeatPanel;
+        [SerializeField] private GameObject successPanel;
 
         private PlayerController _playerController;
         
@@ -24,6 +25,11 @@ namespace Player
             _playerController.OnPlayerDestroyed += SetDefeatScreen;
         }
 
+        private void SetSuccessScreen()
+        {
+            successPanel.SetActive(true);
+        }
+        
         private void SetDefeatScreen()
         {
             defeatPanel.SetActive(true);
@@ -36,6 +42,12 @@ namespace Player
 
         public void RestartLevel()
         {
+            SceneManager.LoadScene("Scenes/Game");
+        }
+
+        public void NextLevel()
+        {
+            PlayerPrefs.SetInt("Level", PlayerPrefs.GetInt("Level", 0) + 1);
             SceneManager.LoadScene("Scenes/Game");
         }
 
