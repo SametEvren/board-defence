@@ -26,7 +26,8 @@ namespace Enemies
         private const int BirdCapacity = 10;
         
         [SerializeField] private List<EnemyInventory> enemyInventory;
-
+        [SerializeField] private ParticleSystem enemySpawnParticle;
+        
         private const float SpawnInterval = 5f;
 
         public event Action<EnemyType, int> EnemyInventoryUpdated;
@@ -104,14 +105,10 @@ namespace Enemies
                         indicator.SetSprite(enemy.enemyType, () => {
                             if (isSpawning)
                             {
-                                GameObject spawnedEnemy = GetEnemy(enemy.enemyType);
-                                if (spawnedEnemy != null)
-                                {
-                                    spawnedEnemy.GetComponent<Enemy>().InitializeEnemy(spawnPosition);
-                                    enemy.amount--;
-                                    EnemyInventoryUpdated?.Invoke(enemy.enemyType, enemy.amount);
-                                    isSpawning = false;
-                                }
+                                StartCoroutine(SpawnEnemyWithParticleEffect(enemy.enemyType, slot));
+                                enemy.amount--;
+                                EnemyInventoryUpdated?.Invoke(enemy.enemyType, enemy.amount);
+                                isSpawning = false;
                             }
                         });
 
@@ -124,6 +121,22 @@ namespace Enemies
                     yield return new WaitForSeconds(SpawnInterval);
                 }
             }
+        }
+
+        private IEnumerator SpawnEnemyWithParticleEffect(EnemyType enemyType, BoardSlot slot)
+        {
+            var particleInstance = Instantiate(enemySpawnParticle, slot.transform.position, Quaternion.identity);
+            particleInstance.Play();
+
+            yield return new WaitForSeconds(particleInstance.main.duration);
+
+            GameObject spawnedEnemy = GetEnemy(enemyType);
+            if (spawnedEnemy != null)
+            {
+                spawnedEnemy.GetComponent<Enemy>().InitializeEnemy(slot.BoardCoordinates);
+            }
+
+            Destroy(particleInstance.gameObject, particleInstance.main.duration);
         }
 
         private Vector2Int GetRandomSpawnPosition()
