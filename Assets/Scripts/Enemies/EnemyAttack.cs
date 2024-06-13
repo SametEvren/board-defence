@@ -1,6 +1,8 @@
 ﻿using Board;
 using Defence;
+using UIScripts;
 using UnityEngine;
+using Zenject;
 
 namespace Enemies
 {
@@ -13,6 +15,14 @@ namespace Enemies
 
         private DefenceItem _currentTarget;
         private float _currentDamage;
+        
+        private DamageUI _damageUI;
+
+        [Inject]
+        private void Construct(DamageUI damageUI)
+        {
+            _damageUI = damageUI;
+        }
         
         private void Awake()
         {
@@ -58,6 +68,8 @@ namespace Enemies
         public void GiveDamage()
         {
             _currentTarget.TakeDamage(_currentDamage);
+            DamagePopUp.Create(_damageUI.damagePopUpPrefab, _currentTarget.gameObject.transform.position,
+                _currentDamage.ToString(), PopUpType.EnemyDamage);
         }
 
         public void FinishWindDown()

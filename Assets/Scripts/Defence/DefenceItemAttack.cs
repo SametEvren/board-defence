@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using Board;
 using Enemies;
+using UIScripts;
 using UnityEngine;
+using Zenject;
 
 namespace Defence
 {
@@ -13,6 +15,14 @@ namespace Defence
         [SerializeField] protected float damageDelay;
         protected DefenceItemData _itemData;
         protected bool _isInCooldown;
+
+        private DamageUI _damageUI;
+
+        [Inject]
+        private void Construct(DamageUI damageUI)
+        {
+            _damageUI = damageUI;
+        }
         
 
         public void RemoveEnemyFromTargets(Enemy target)
@@ -69,6 +79,8 @@ namespace Defence
             foreach (var enemy in enemiesToDamage)
             {
                 enemy.TakeDamage(_itemData.damage);
+                DamagePopUp.Create(_damageUI.damagePopUpPrefab, enemy.gameObject.transform.position,
+                    _itemData.damage.ToString(), PopUpType.DefenceItemDamage);
             }
         }
         

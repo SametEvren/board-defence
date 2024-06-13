@@ -3,6 +3,7 @@ using Defence;
 using Enemies;
 using ItemPlacement;
 using Player;
+using UIScripts;
 using Zenject;
 
 namespace Dependency_Injection
@@ -17,6 +18,7 @@ namespace Dependency_Injection
             Container.Bind<DefenceItemPool>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<EnemySpawnController>().FromComponentInHierarchy().AsSingle().NonLazy();
             Container.Bind<PlayerController>().FromComponentInHierarchy().AsSingle().NonLazy();
+            Container.Bind<DamageUI>().FromComponentInHierarchy().AsSingle().NonLazy();
         }
     }
 }
