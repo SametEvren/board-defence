@@ -2604,7 +2604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a19e04f3b3f4c3690dd7adc2a816756, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
 --- !u!4 &1547037534 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6470101132342753787, guid: 385eaca803ef6f64eaca4f79a99f1dfa, type: 3}
@@ -2913,6 +2912,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4135264757627669422, guid: 8054b4a1ea09de940864a52130d5d7c3, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5215117008547247015, guid: 8054b4a1ea09de940864a52130d5d7c3, type: 3}
       propertyPath: m_LocalScale.y
       value: 1.0816664
@@ -2977,6 +2980,10 @@ PrefabInstance:
     - target: {fileID: 720854334014677379, guid: c757479b067e56e42a8e260e360fff71, type: 3}
       propertyPath: m_Name
       value: SmokeFX
+      objectReference: {fileID: 0}
+    - target: {fileID: 720854334014677379, guid: c757479b067e56e42a8e260e360fff71, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 731449764043581320, guid: c757479b067e56e42a8e260e360fff71, type: 3}
       propertyPath: m_LocalScale.x
