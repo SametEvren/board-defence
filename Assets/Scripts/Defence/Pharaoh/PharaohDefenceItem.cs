@@ -1,6 +1,4 @@
-﻿using System;
-using Board;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Defence.Pharaoh
 {
@@ -10,11 +8,6 @@ namespace Defence.Pharaoh
         private void Awake()
         {
             Attack = GetComponent<PharaohAttack>();
-        }
-
-        protected override void HandleChangeInArea(ISlotOccupier occupier, bool added)
-        {
-            base.HandleChangeInArea(occupier, added);
         }
     }
 }

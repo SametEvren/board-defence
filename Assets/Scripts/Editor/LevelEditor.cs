@@ -84,7 +84,11 @@ namespace Editor
         
         private void RenderAddDefenceButton()
         {
-            RenderAddButton(LevelData.defenceItemInventories, () => DefenceItemCreationWindow.ShowWindow(LevelData.defenceItemInventories, AddDefenceItem), Enum.GetValues(typeof(DefenceItemType)).Length);
+            RenderAddButton(LevelData.defenceItemInventories,
+                () => DefenceItemCreationWindow.ShowWindow(
+                    LevelData.defenceItemInventories, 
+                    AddDefenceItem),
+                Enum.GetValues(typeof(DefenceItemType)).Length);
         }
         
         private void AddDefenceItem(DefenceItemInventory item)
@@ -150,7 +154,8 @@ namespace Editor
         
         private void RenderAddEnemyButton()
         {
-            RenderAddButton(LevelData.enemyInventories, () => EnemyItemCreationWindow.ShowWindow(LevelData.enemyInventories, AddEnemy), -1);
+            RenderAddButton(LevelData.enemyInventories,
+                () => EnemyItemCreationWindow.ShowWindow(LevelData.enemyInventories, AddEnemy), -1);
         }
         
         private void AddEnemy(EnemyInventory item)

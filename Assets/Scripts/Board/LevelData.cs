@@ -34,8 +34,7 @@ namespace Board
         Bird = 2,
         Cat = 3
     }
-
-    [Serializable]
+    
     public enum DefenceItemType
     {
         None = 0,

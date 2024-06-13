@@ -124,7 +124,6 @@ namespace Enemies
             if(_currentHealth <= 0) return;
             
             _currentHealth -= damage;
-            //TODO: Particles etc.
             
             if (_currentHealth <= 0)
             {

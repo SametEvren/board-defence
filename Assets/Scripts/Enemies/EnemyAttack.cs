@@ -57,19 +57,23 @@ namespace Enemies
         {
             _currentTarget.OnRemovedFromSlot -= OnDefeatedTarget;
             _currentTarget = null;
-            StopAttacking();
-        }
-
-        private void StopAttacking()
-        {
-            //TODO: Stop attack animation
         }
 
         public void GiveDamage()
         {
-            _currentTarget.TakeDamage(_currentDamage);
+            if (_currentTarget == null)
+                return;
+            
+            if (_damageUI == null || _damageUI.damagePopUpPrefab == null)
+            {
+                Debug.LogError("DamageUI or damagePopUpPrefab is not set");
+                return;
+            }
+            
             DamagePopUp.Create(_damageUI.damagePopUpPrefab, _currentTarget.gameObject.transform.position,
                 _currentDamage.ToString(), PopUpType.EnemyDamage);
+            _currentTarget.TakeDamage(_currentDamage);
+            
         }
 
         public void FinishWindDown()

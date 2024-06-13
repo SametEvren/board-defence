@@ -1,5 +1,4 @@
-﻿
-namespace Enemies
+﻿namespace Enemies
 {
     public class BirdEnemy : Enemy
     {
