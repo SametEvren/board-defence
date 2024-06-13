@@ -10,8 +10,10 @@ namespace Defence
     {
         [SerializeField] protected List<Enemy> enemiesInRange = new ();
         [SerializeField] protected List<BoardSlot> affectedBoardSlots;
+        [SerializeField] protected float damageDelay;
         protected DefenceItemData _itemData;
         protected bool _isInCooldown;
+        
 
         public void RemoveEnemyFromTargets(Enemy target)
         {
@@ -59,6 +61,17 @@ namespace Defence
             _isInCooldown = false;
         }
 
+        protected IEnumerator GiveDamage()
+        {
+            yield return new WaitForSeconds(damageDelay);
+            var enemiesToDamage = new List<Enemy>(enemiesInRange);
+         
+            foreach (var enemy in enemiesToDamage)
+            {
+                enemy.TakeDamage(_itemData.damage);
+            }
+        }
+        
         protected abstract void AttackEnemies();
         protected abstract void AdjustAttackVFX();
     }

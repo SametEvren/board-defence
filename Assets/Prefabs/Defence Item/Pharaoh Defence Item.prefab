@@ -193,7 +193,6 @@ MonoBehaviour:
   defenceItemData: {fileID: 11400000, guid: 8720784bf48b0154f993b50c3d27f49d, type: 2}
   itemType: 3
   affectedSlots: []
-  affectedEnemies: []
 --- !u!114 &673620205120351877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +205,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ae9e14578e948dcb2658b2f2d2e81be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemiesInRange: []
+  affectedBoardSlots: []
+  damageDelay: 0.3
   _particleSystem: {fileID: 5106762980501777355}
   _particleScaleFactor: 0.5
 --- !u!1001 &6840255845628073158

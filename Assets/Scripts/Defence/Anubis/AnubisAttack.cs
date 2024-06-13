@@ -19,11 +19,7 @@ namespace Defence.Anubis
                 Destroy(instantiatedFx.gameObject,1f);
             }
             
-            var enemiesToDamage = new List<Enemy>(enemiesInRange);
-            foreach (var enemy in enemiesToDamage)
-            {
-                enemy.TakeDamage(_itemData.damage);
-            }
+            StartCoroutine(GiveDamage());
         }
 
         protected override void AdjustAttackVFX()

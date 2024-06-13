@@ -48,6 +48,21 @@ namespace Defence
             Attack.Initialize(Data, affectedSlots);
         }
 
+        public void GetEnemiesInRange()
+        {
+            foreach (var boardSlot in affectedSlots)
+            {
+                foreach (var currentOcuppant in boardSlot.CurrentOccupants)
+                {
+                    if (currentOcuppant.OccupantType == SlotOccupantType.Enemy)
+                    {
+                        Attack.AddEnemyAsTarget((Enemy)currentOcuppant);
+                    }
+                }
+                
+            }
+        }
+
         public void SetAffectedSlots(List<BoardSlot> newSlots)
         {
             if (affectedSlots != null && affectedSlots.Count > 0)
@@ -58,6 +73,7 @@ namespace Defence
                 affectedSlots.Add(slot);
                 slot.OnOccupationChanged += HandleChangeInArea;
             }
+            GetEnemiesInRange();
         }
 
         private void StopListeningToAffectedSlots()

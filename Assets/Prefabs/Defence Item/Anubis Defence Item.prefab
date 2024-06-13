@@ -98,8 +98,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6049e8f038d43a5a0605c038c240a1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemiesInRange: []
+  enemiesInRange: []
   affectedBoardSlots: []
+  damageDelay: 0.15
   attackFxPrefab: {fileID: 6721007384533448651, guid: 98557619806f23c499c9cdb620a31541, type: 3}
 --- !u!4 &6987366730460122283 stripped
 Transform:

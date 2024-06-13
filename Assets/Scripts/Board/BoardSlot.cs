@@ -14,7 +14,7 @@ namespace Board
         [SerializeField] private Material highlightMaterial;
 
         private MeshRenderer _meshRenderer;
-        private List<ISlotOccupier> _currentOccupants;
+        private List<ISlotOccupier> _currentOccupants = new List<ISlotOccupier>();
         private bool _isPlaceable;
         private bool IsOccupied => _currentOccupants != null && _currentOccupants.Count != 0;
         public  List<ISlotOccupier> CurrentOccupants => _currentOccupants;
@@ -31,7 +31,6 @@ namespace Board
 
         public void OccupySlot(ISlotOccupier newOccupant)
         {
-            _currentOccupants ??= new List<ISlotOccupier>();
             _currentOccupants.Add(newOccupant);
             newOccupant.OnRemovedFromSlot += RemoveOccupant;
             OnOccupationChanged?.Invoke(newOccupant, true);
@@ -40,7 +39,6 @@ namespace Board
         private void RemoveOccupant(ISlotOccupier oldOccupant)
         {
             oldOccupant.OnRemovedFromSlot -= RemoveOccupant;
-            _currentOccupants ??= new List<ISlotOccupier>();
             _currentOccupants.Remove(oldOccupant);
             OnOccupationChanged?.Invoke(oldOccupant, false);
         }
@@ -57,7 +55,7 @@ namespace Board
         {
             BoardCoordinates = coordinates;
             _isPlaceable = isPlaceable;
-            _currentOccupants = null;
+            _currentOccupants.Clear();
             RenderPlaceableStatus();
         }
 
