@@ -11,7 +11,7 @@ namespace ItemPlacement
     {
         [SerializeField] private Camera playerCamera;
         [SerializeField] private List<DefenceItem> itemPrefabs;
-        
+        [SerializeField] private ParticleSystem placementParticle;
         private DefenceItemType _currentType;
         private DefenceItem _currentItem;
         private Vector2Int _currentCoordinates;
@@ -80,7 +80,10 @@ namespace ItemPlacement
         private void PlaceItemDown(BoardSlot targetedSlot)
         {
             _currentItem.transform.SetParent(targetedSlot.transform);
-
+            
+            placementParticle.transform.position = _currentItem.transform.position;
+            placementParticle.Play();
+            
             targetedSlot.OccupySlot(_currentItem);
             _currentItem.SetAffectedSlots(_potentialAffectedArea);
             

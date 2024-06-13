@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Enemies;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Defence.Anubis
 {
@@ -13,8 +11,8 @@ namespace Defence.Anubis
 
             foreach (var slot in affectedBoardSlots)
             {
-                var transformOfSlot = slot.transform.position;
-                var instantiatedFx = Instantiate(attackFxPrefab, transformOfSlot, Quaternion.identity);
+                var slotPosition = slot.transform.position;
+                var instantiatedFx = Instantiate(attackFxPrefab, slotPosition + Vector3.up * 0.25f, Quaternion.identity);
                 instantiatedFx.Play();
                 Destroy(instantiatedFx.gameObject,1f);
             }
@@ -24,7 +22,6 @@ namespace Defence.Anubis
 
         protected override void AdjustAttackVFX()
         {
-            return;
         }
     }
 }

@@ -54,7 +54,7 @@ namespace Game_Speed
                 case GameState.Defeat:
                     Pause();
                     pauseControlImage.gameObject.SetActive(false);
-                    speedControlImage.gameObject.SetActive(false);
+                    speedControlImage.transform.parent.gameObject.SetActive(false);
                     break;
             }
         }

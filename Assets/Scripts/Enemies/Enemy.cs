@@ -2,6 +2,8 @@
 using System.Linq;
 using Board;
 using Defence;
+using DG.Tweening;
+using Particles;
 using Player;
 using UnityEngine;
 using Zenject;
@@ -14,6 +16,7 @@ namespace Enemies
     {
         [SerializeField] protected EnemyType enemyType;
         [SerializeField] protected EnemyData enemyData;
+        [SerializeField] protected ParticleSystem disappearEffect;
         
         public SlotOccupantType OccupantType => SlotOccupantType.Enemy;
         public event Action<ISlotOccupier> OnRemovedFromSlot;
@@ -28,21 +31,29 @@ namespace Enemies
         private BoardController _boardController;
         private EnemySpawnController _enemySpawnController;
         private PlayerController _playerController;
+        private ParticleHolder _particleHolder;
+
+        private Sequence _disappearSequence;
+
+        private float enemyScale;
 
         [Inject]
         public void Construct(BoardController boardController, 
             EnemySpawnController enemySpawnController, 
-            PlayerController playerController)
+            PlayerController playerController,
+            ParticleHolder particleHolder)
         {
             _boardController = boardController;
             _enemySpawnController = enemySpawnController;
             _playerController = playerController;
+            _particleHolder = particleHolder;
         }
         
         private void Awake()
         {
             _enemyMovement = GetComponent<EnemyMovement>();
             _enemyAttack = GetComponent<EnemyAttack>();
+            enemyScale = transform.localScale.x;
         }
 
         private void Start()
@@ -54,13 +65,29 @@ namespace Enemies
         {
             _playerController.TakeDamage(enemyData.damage);
             _enemyMovement.KillMovementSequence();
-            OnRemovedFromSlot?.Invoke(this);
-            OnEnemyVanished?.Invoke(this);
-            _enemySpawnController.ReleaseEnemy(enemyType, gameObject);
+            
+            disappearEffect.transform.localScale = Vector3.one * 0.2f;
+            disappearEffect.gameObject.SetActive(true);
+            disappearEffect.Play();
+            _particleHolder.SpawnDisappearParticle(transform.position);
+            
+            _disappearSequence?.Kill();
+            _disappearSequence = DOTween.Sequence()
+                .SetDelay(0.5f)
+                .Append(disappearEffect.transform.DOPunchScale(Vector3.one * 0.1f, 0.3f, 1))
+                .Append(transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.Linear))
+                .OnComplete(() =>
+                {
+                    disappearEffect.gameObject.SetActive(false);
+                    OnRemovedFromSlot?.Invoke(this);
+                    OnEnemyVanished?.Invoke(this);
+                    _enemySpawnController.ReleaseEnemy(enemyType, gameObject);
+                });
         }
 
         public void InitializeEnemy(Vector2Int coordinates)
         {
+            transform.localScale = Vector3.one * enemyScale;
             _currentHealth = enemyData.health;
             _currentBoardCoordinates = coordinates;
             var spawnSlot = _boardController.BoardSlots[coordinates.x, coordinates.y];
